@@ -37,7 +37,6 @@ const breadcrumbLinks = computed(() => {
     <SidebarTrigger />
     <main class="content">
       <AppBreadcrumb :links="breadcrumbLinks" />
-      <h1>{{route.name}}</h1>
       <router-view />
     </main>
   </SidebarProvider>

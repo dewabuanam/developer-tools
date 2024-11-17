@@ -1,8 +1,33 @@
 <script setup lang="ts">
+import { menuItems } from '@/constants/MenuItems';
+import AppTool from '@/components/ui/app-tool/AppTool.vue';
+
+const encodersDecodersMenu = menuItems.find(item => item.url === '/encoders-decoders');
+const encodersDecodersChildren = encodersDecodersMenu ? encodersDecodersMenu.children : [];
 </script>
 
 <template>
   <main>
-    <h1>Encoders/Decoders Page</h1>
+    <div class="tool-list">
+      <AppTool
+        v-for="child in encodersDecodersChildren"
+        :key="child.title"
+        :title="child.title"
+        :description="child.description"
+        :icon="child.icon"
+        :url="child.url"
+      />
+    </div>
   </main>
 </template>
+
+<style scoped>
+.tool-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  overflow-y: auto;
+  max-height: 80vh;
+  padding: 16px;
+}
+</style>
