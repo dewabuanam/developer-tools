@@ -2,10 +2,12 @@
 import { Label } from '@/components/ui/label'
 import Configuration from '../../components/ui/configuration/Configuration.vue'
 import { Settings } from 'lucide-vue-next'
-import { LineNumberTextarea } from '@/components/ui/textarea'
+import { JsonEditor } from '@/components/ui/json-editor'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { ref, watch } from 'vue'
 import yaml from 'js-yaml'
+import { Button } from '@/components/ui/button'
+import { ClipboardPaste, X, FolderOpen, Copy } from 'lucide-vue-next'
 
 const ConversionTitle = 'Conversion'
 const ConversionDesc = 'Select which conversion mode you want to use'
@@ -39,6 +41,42 @@ const convert = () => {
   }
 }
 
+const pasteFromClipboard = async () => {
+  try {
+    const text = await navigator.clipboard.readText()
+    inputText.value = text
+  } catch (error) {
+    console.error('Failed to read clipboard contents: ', error)
+  }
+}
+
+const openFile = async () => {
+  if (window.showOpenFilePicker) {
+    try {
+      const [fileHandle] = await window.showOpenFilePicker()
+      const file = await fileHandle.getFile()
+      const text = await file.text()
+      inputText.value = text
+    } catch (error) {
+      console.error('Failed to open file: ', error)
+    }
+  } else {
+    console.error('showOpenFilePicker is not supported in this browser.')
+  }
+}
+
+const clearInput = () => {
+  inputText.value = ''
+}
+
+const copyToClipboard = async () => {
+  try {
+    await navigator.clipboard.writeText(outputText.value)
+  } catch (error) {
+    console.error('Failed to copy to clipboard: ', error)
+  }
+}
+
 watch([selectedIndentation, inputText], convert)
 watch(selectedConversion, () => {
   if (!outputText.value.startsWith('Error:')) {
@@ -66,13 +104,46 @@ watch(selectedConversion, () => {
 
   <ResizablePanelGroup direction="horizontal">
     <ResizablePanel>
-      <Label for="input">Input</Label>
-      <LineNumberTextarea v-model="inputText" height="600px"/>
+      <div class="input-header">
+        <Label for="input">Input</Label>
+        <div class="button-group">
+          <Button variant="outline" size="icon" @click="pasteFromClipboard">
+            <ClipboardPaste class="w-4 h-4" />
+          </Button>
+          <Button variant="outline" size="icon" @click="openFile">
+            <FolderOpen class="w-4 h-4" />
+          </Button>
+          <Button variant="outline" size="icon" @click="clearInput">
+            <X class="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+      <JsonEditor v-model="inputText"/>
     </ResizablePanel>
     <ResizableHandle with-handle />
     <ResizablePanel>
-      <Label for="output">Output</Label>
-      <LineNumberTextarea v-model="outputText" readonly height="600px"/>
+      <div class="input-header">
+        <Label for="output">Output</Label>
+        <div class="button-group">
+          <Button variant="outline" size="icon" @click="copyToClipboard">
+            <Copy class="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+      <JsonEditor v-model="outputText" readOnly dar/>
     </ResizablePanel>
   </ResizablePanelGroup>
 </template>
+
+<style scoped>
+.input-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button-group {
+  display: flex;
+  gap: 8px; /* Adjust the gap between buttons as needed */
+}
+</style>
