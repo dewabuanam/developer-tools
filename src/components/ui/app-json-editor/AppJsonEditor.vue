@@ -2,7 +2,7 @@
   <Codemirror
     v-model="code"
     placeholder=""
-    :style="{ height: '600px' }"
+    :style="{ height: '560px', border: '1px solid #ccc', borderRadius: '2px' }"
     :autofocus="true"
     :indent-with-tab="true"
     :tab-size="2"
