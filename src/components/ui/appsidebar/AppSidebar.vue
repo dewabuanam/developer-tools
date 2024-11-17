@@ -1,4 +1,5 @@
 <script setup lang='ts'>
+import { useRouter } from 'vue-router'
 import {
   Sidebar,
   SidebarContent,
@@ -24,6 +25,12 @@ const props = defineProps({
     required: true
   }
 })
+
+const router = useRouter()
+
+const navigateTo = (url: string) => {
+  router.push(url)
+}
 </script>
 
 <template>
@@ -33,10 +40,10 @@ const props = defineProps({
         <Collapsible className="group/collapsible">
           <SidebarGroup>
             <SidebarGroupLabel asChild>
-              <a :href="item.url" class="flex items-center space-x-2">
+              <div @click="navigateTo(item.url)" class="flex items-center space-x-2 cursor-pointer">
                 <component :is="item.icon" />
                 <span>{{ item.title }}</span>
-              </a>
+              </div>
             </SidebarGroupLabel>
             <SidebarGroupAction title="Add Project">
               <template v-if="item.children && item.children.length">
@@ -52,10 +59,10 @@ const props = defineProps({
                   <template v-for="child in item.children">
                     <SidebarMenuItem>
                       <SidebarMenuButton asChild>
-                        <a :href="child.url">
+                        <div @click="navigateTo(child.url)" class="cursor-pointer">
                           <component :is="child.icon" />
                           <span>{{ child.title }}</span>
-                        </a>
+                        </div>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   </template>
