@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Label } from '@/components/ui/label'
-import Configuration from '../../components/ui/configuration/Configuration.vue'
+import { AppConfiguration } from '@/components/ui/app-configuration'
 import { Settings } from 'lucide-vue-next'
-import { JsonEditor } from '@/components/ui/json-editor'
+import { AppJsonEditor } from '@/components/ui/app-json-editor'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { ref, watch } from 'vue'
 import yaml from 'js-yaml'
@@ -88,14 +88,14 @@ watch(selectedConversion, () => {
 
 <template>
   <Label for="email">Configuration</Label>
-  <Configuration
+  <AppConfiguration
     :title="ConversionTitle"
     :description="ConversionDesc"
     :dropdownOptions="ConversionDropdown"
     :icon="Settings"
     v-model="selectedConversion"
   />
-  <Configuration
+  <AppConfiguration
     :title="IndentationTitle"
     :dropdownOptions="IndentationDropdown"
     :icon="Settings"
@@ -118,7 +118,7 @@ watch(selectedConversion, () => {
           </Button>
         </div>
       </div>
-      <JsonEditor v-model="inputText"/>
+      <AppJsonEditor v-model="inputText" />
     </ResizablePanel>
     <ResizableHandle with-handle />
     <ResizablePanel>
@@ -130,7 +130,7 @@ watch(selectedConversion, () => {
           </Button>
         </div>
       </div>
-      <JsonEditor v-model="outputText" readOnly dar/>
+      <AppJsonEditor v-model="outputText" readOnly dar />
     </ResizablePanel>
   </ResizablePanelGroup>
 </template>

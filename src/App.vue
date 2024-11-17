@@ -1,7 +1,7 @@
 // src/App.vue
 <script setup lang="ts">
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { AppSidebar } from '@/components/ui/appsidebar'
+import { AppSidebar } from '@/components/ui/app-sidebar'
 import AppBreadcrumb from '@/components/ui/app-breadcrumb/AppBreadcrumb.vue'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
