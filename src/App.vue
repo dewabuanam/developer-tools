@@ -20,7 +20,9 @@ const kebabToPascal = (str: string) => {
     <AppSidebar :menuItems="menuItems" />
     <SidebarTrigger />
     <main class="content">
-      <router-view />
+      <div class="router-page">
+        <router-view />
+      </div>
     </main>
   </SidebarProvider>
 </template>
@@ -30,5 +32,10 @@ const kebabToPascal = (str: string) => {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+.router-page {
+  gap: 16px;
+  padding: 16px;
 }
 </style>
