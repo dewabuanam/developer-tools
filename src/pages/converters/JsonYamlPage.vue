@@ -8,6 +8,7 @@ import { ref, watch } from 'vue'
 import yaml from 'js-yaml'
 import { Button } from '@/components/ui/button'
 import { ClipboardPaste, X, FolderOpen, Copy } from 'lucide-vue-next'
+import { AppComponentGap } from '@/components/ui/app-component-gap'
 
 const ConversionTitle = 'Conversion'
 const ConversionDesc = 'Select which conversion mode you want to use'
@@ -87,26 +88,26 @@ watch(selectedConversion, () => {
 </script>
 
 <template>
-  <Label for="email" class="component-gap">Configuration</Label>
+  <Label for="email">Configuration</Label>
+  <AppComponentGap size="small" />
   <AppConfiguration
     :title="ConversionTitle"
     :description="ConversionDesc"
     :dropdownOptions="ConversionDropdown"
     :icon="Settings"
     v-model="selectedConversion"
-    class="component-gap-s"
   />
+  <AppComponentGap />
   <AppConfiguration
     :title="IndentationTitle"
     :dropdownOptions="IndentationDropdown"
     :icon="Settings"
     v-model="selectedIndentation"
-    class="component-gap"
   />
-  <ResizablePanelGroup
-    direction="horizontal" class="component-gap max-h-[640px] ">
+  <AppComponentGap size="large" />
+  <ResizablePanelGroup direction="horizontal" class="max-h-[620px]">
     <ResizablePanel>
-      <div class="input-header component-gap-s">
+      <div class="input-header">
         <Label for="input">Input</Label>
         <div class="button-group">
           <Button variant="outline" size="icon" @click="pasteFromClipboard">
@@ -120,11 +121,12 @@ watch(selectedConversion, () => {
           </Button>
         </div>
       </div>
+      <AppComponentGap size="small" />
       <AppJsonEditor v-model="inputText" />
     </ResizablePanel>
     <ResizableHandle with-handle class="resizeable-handle" />
     <ResizablePanel>
-      <div class="input-header component-gap-s">
+      <div class="input-header">
         <Label for="output">Output</Label>
         <div class="button-group">
           <Button variant="outline" size="icon" @click="copyToClipboard">
@@ -132,11 +134,11 @@ watch(selectedConversion, () => {
           </Button>
         </div>
       </div>
+      <AppComponentGap size="small" />
       <AppJsonEditor v-model="outputText" readOnly dar />
     </ResizablePanel>
   </ResizablePanelGroup>
 </template>
-
 <style scoped>
 .input-header {
   display: flex;
@@ -147,14 +149,6 @@ watch(selectedConversion, () => {
 .button-group {
   display: flex;
   gap: 8px; /* Adjust the gap between buttons as needed */
-}
-
-.component-gap {
-  margin-bottom: 16px; /* Adjust the gap between components as needed */
-}
-
-.component-gap-s {
-  margin-bottom: 8px; /* Adjust the gap between components as needed */
 }
 
 .resizeable-handle {
