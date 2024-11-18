@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ref, watch } from 'vue'
+import { Switch } from '@/components/ui/switch'
 
 const props = defineProps({
   title: {
@@ -11,7 +12,7 @@ const props = defineProps({
     type: String,
     required: false
   },
-  dropdownOptions: {
+  listOptions: {
     type: Array as () => { key: string, value: string }[],
     required: true
   },
@@ -22,6 +23,11 @@ const props = defineProps({
   modelValue: {
     type: String,
     required: true
+  },
+  useSwitch: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
 
@@ -32,6 +38,10 @@ const selectedOption = ref(props.modelValue)
 watch(selectedOption, (newValue) => {
   emit('update:modelValue', newValue)
 })
+
+function handleChange(newValue: boolean) {
+  selectedOption.value = newValue ? '1' : '0'
+}
 </script>
 
 <template>
@@ -47,8 +57,14 @@ watch(selectedOption, (newValue) => {
             </CardDescription>
           </div>
         </div>
-        <select v-model="selectedOption" class="dropdown">
-          <option v-for="option in dropdownOptions" :key="option.key" :value="option.value">
+        <div v-if="useSwitch">
+          <Switch
+            :checked="selectedOption === '1'"
+            @update:checked="handleChange"
+          />
+        </div>
+        <select v-else v-model="selectedOption" class="dropdown">
+          <option v-for="option in listOptions" :key="option.key" :value="option.value">
             {{ option.key }}
           </option>
         </select>

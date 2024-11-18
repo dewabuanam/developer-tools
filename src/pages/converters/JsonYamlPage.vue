@@ -112,14 +112,14 @@ watch(selectedConversion, () => {
   <AppConfiguration
     :title="ConversionTitle"
     :description="ConversionDesc"
-    :dropdownOptions="ConversionDropdown"
+    :listOptions="ConversionDropdown"
     :icon="Settings"
     v-model="selectedConversion"
   />
   <AppComponentGap />
   <AppConfiguration
     :title="IndentationTitle"
-    :dropdownOptions="IndentationDropdown"
+    :listOptions="IndentationDropdown"
     :icon="Settings"
     v-model="selectedIndentation"
   />
