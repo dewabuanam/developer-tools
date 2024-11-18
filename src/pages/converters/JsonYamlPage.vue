@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { Label } from '@/components/ui/label'
 import { AppConfiguration } from '@/components/ui/app-configuration'
-import { Settings } from 'lucide-vue-next'
 import { AppJsonEditor } from '@/components/ui/app-json-editor'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { ref, watch } from 'vue'
 import yaml from 'js-yaml'
 import { Button } from '@/components/ui/button'
-import { ClipboardPaste, X, FolderOpen, Copy } from 'lucide-vue-next'
+import { ClipboardPaste, X, FolderOpen, Copy, Settings } from 'lucide-vue-next'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useToast } from '@/components/ui/toast/use-toast'
@@ -49,8 +48,7 @@ const convert = () => {
 
 const pasteFromClipboard = async () => {
   try {
-    const text = await navigator.clipboard.readText()
-    inputText.value = text
+    inputText.value = await navigator.clipboard.readText()
     toast({
       title: 'Pasted from Clipboard',
       description: 'Input text has been updated from clipboard contents.',
@@ -65,8 +63,7 @@ const openFile = async () => {
     try {
       const [fileHandle] = await window.showOpenFilePicker()
       const file = await fileHandle.getFile()
-      const text = await file.text()
-      inputText.value = text
+      inputText.value = await file.text()
       toast({
         title: 'File Opened',
         description: 'Input text has been updated from the selected file.',

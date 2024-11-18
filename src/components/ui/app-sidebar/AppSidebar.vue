@@ -3,10 +3,6 @@ import { useRouter } from 'vue-router'
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarGroupAction,
   SidebarMenuSub,
   SidebarMenuButton,
   SidebarMenuSubItem, SidebarMenu, SidebarMenuItem
