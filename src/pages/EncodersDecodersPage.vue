@@ -28,6 +28,5 @@ const encodersDecodersChildren = encodersDecodersMenu ? encodersDecodersMenu.chi
   gap: 16px;
   overflow-y: auto;
   max-height: 80vh;
-  padding: 16px;
 }
 </style>

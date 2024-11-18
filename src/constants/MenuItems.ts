@@ -13,7 +13,7 @@ export const menuItems = [
     icon: Settings,
     description: 'Tools for converting data formats',
     children: [
-      { title: 'JSON ↔ YAML', url: '/converters/json-yaml', icon: Settings, description: 'Convert JSON to YAML and vice versa' },
+      { title: 'JSON ↔ YAML Converter', url: '/converters/json-yaml', icon: Settings, description: 'Convert JSON to YAML and vice versa' },
       { title: 'Timestamp Converter', url: '/converters/timestamp', icon: Settings, description: 'Convert timestamps to human-readable dates' },
       { title: 'Number Base Converter', url: '/converters/number-base', icon: Settings, description: 'Convert numbers between different bases' },
       { title: 'Cron Expression Parser', url: '/converters/cron-parser', icon: Settings, description: 'Parse and validate cron expressions' }

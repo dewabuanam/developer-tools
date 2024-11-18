@@ -22,8 +22,10 @@ const kebabToPascal = (str: string) => {
     <SidebarTrigger />
     <main class="content">
       <div class="router-page">
-        <Label for="title" class="title-label">{{ kebabToPascal(route.name) }}</Label>
-        <AppComponentGap size="large"/>
+        <Label for="title" class="title-label">
+          {{ typeof route.name === 'string' ? kebabToPascal(route.name) : '' }}
+        </Label>
+        <AppComponentGap size="large" />
         <router-view />
       </div>
     </main>

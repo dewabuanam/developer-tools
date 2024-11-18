@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { SIDEBAR_WIDTH_MOBILE, useSidebar } from './utils'
 
 defineOptions({
-  inheritAttrs: false
+  inheritAttrs: false,
 })
 
 const props = withDefaults(defineProps<{
@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<{
 }>(), {
   side: 'left',
   variant: 'sidebar',
-  collapsible: 'offcanvas'
+  collapsible: 'offcanvas',
 })
 
 const { isMobile, state, openMobile, setOpenMobile } = useSidebar()

@@ -38,7 +38,7 @@ import ImageConverterPage from '../pages/graphic-tools/ImageConverterPage.vue';
 const routes = [
   { path: '/', name: 'Home', component: HomePage },
   { path: '/converters', name: 'Converters', component: ConvertersPage },
-  { path: '/converters/json-yaml', name: 'Json Yaml', component: JsonYamlPage },
+  { path: '/converters/json-yaml', name: 'JSON ↔ YAML Converter', component: JsonYamlPage },
   { path: '/converters/timestamp', name: 'Timestamp Converter', component: TimestampConverterPage },
   { path: '/converters/number-base', name: 'Number Base Converter', component: NumberBaseConverterPage },
   { path: '/converters/cron-parser', name: 'Cron Parser', component: CronParserPage },

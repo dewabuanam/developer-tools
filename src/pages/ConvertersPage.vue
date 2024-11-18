@@ -28,6 +28,5 @@ const convertersChildren = convertersMenu ? convertersMenu.children : [];
   gap: 16px;
   overflow-y: auto;
   max-height: 80vh;
-  padding: 16px;
 }
 </style>
