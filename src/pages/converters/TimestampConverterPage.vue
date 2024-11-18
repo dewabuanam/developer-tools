@@ -13,6 +13,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
 import { Input } from '@/components/ui/input'
+import { ClipboardPaste, Copy, CalendarCheck } from 'lucide-vue-next'
+import { Button } from '@/components/ui/button'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@/components/ui/tooltip'
+import { useToast } from '@/components/ui/toast/use-toast'
+import { Toaster } from '@/components/ui/toast'
 
 // Get the machine's time zone, fallback to UTC if it fails
 let machineTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -36,24 +46,19 @@ const day = ref(currentDateTime.getDate())
 const hours = ref(currentDateTime.getHours())
 const minutes = ref(currentDateTime.getMinutes())
 const seconds = ref(currentDateTime.getSeconds())
+const { toast } = useToast()
 
-// Watch for changes in timestamp and update datetime
 watch(timestamp, (newTimestamp) => {
   const newDate = new Date(newTimestamp)
-  year.value = newDate.getFullYear()
-  month.value = newDate.getMonth() + 1
-  day.value = newDate.getDate()
-  hours.value = newDate.getHours()
-  minutes.value = newDate.getMinutes()
-  seconds.value = newDate.getSeconds()
-  updateTimeInfo(newDate)
-})
-
-// Watch for changes in datetime or timezone and update timestamp
-watch([selectedTimeZone, year, month, day, hours, minutes, seconds], () => {
-  const newDate = new Date(year.value, month.value - 1, day.value, hours.value, minutes.value, seconds.value)
-  timestamp.value = newDate.getTime()
-  updateTimeInfo(newDate)
+  if (!isNaN(newDate.getTime())) {
+    year.value = newDate.getFullYear()
+    month.value = newDate.getMonth() + 1
+    day.value = newDate.getDate()
+    hours.value = newDate.getHours()
+    minutes.value = newDate.getMinutes()
+    seconds.value = newDate.getSeconds()
+    updateTimeInfo(newDate)
+  }
 })
 
 function updateTimeInfo(date: Date) {
@@ -63,6 +68,55 @@ function updateTimeInfo(date: Date) {
     utcTicks: date.getTime(),
     utcDateTime: date.toISOString()
   }
+}
+
+function handleBlur() {
+  const newDate = new Date(year.value, month.value - 1, day.value, hours.value, minutes.value, seconds.value)
+  if (!isNaN(newDate.getTime())) {
+    timestamp.value = newDate.getTime()
+    updateTimeInfo(newDate)
+  }
+}
+
+async function pasteFromClipboard() {
+  try {
+    const text = await navigator.clipboard.readText()
+    timestamp.value = parseInt(text, 10)
+    toast({
+      title: 'Pasted from Clipboard',
+      description: 'Timestamp has been updated from clipboard contents.',
+    })
+  } catch (error) {
+    console.error('Failed to read clipboard contents: ', error)
+  }
+}
+
+async function copyToClipboard() {
+  try {
+    await navigator.clipboard.writeText(timestamp.value.toString())
+    toast({
+      title: 'Copied to Clipboard',
+      description: 'Timestamp has been copied to clipboard.',
+    })
+  } catch (error) {
+    console.error('Failed to copy to clipboard: ', error)
+  }
+}
+
+function setCurrentDateTime() {
+  const currentDateTime = new Date()
+  timestamp.value = currentDateTime.getTime()
+  year.value = currentDateTime.getFullYear()
+  month.value = currentDateTime.getMonth() + 1
+  day.value = currentDateTime.getDate()
+  hours.value = currentDateTime.getHours()
+  minutes.value = currentDateTime.getMinutes()
+  seconds.value = currentDateTime.getSeconds()
+  updateTimeInfo(currentDateTime)
+  toast({
+    title: 'Set Current Date and Time',
+    description: `Current date and time set to ${currentDateTime.toLocaleString()}`,
+  })
 }
 
 // Computed property to format the offset
@@ -81,6 +135,7 @@ const formattedTimeZones = computed(() => {
 </script>
 
 <template>
+  <Toaster />
   <Label for="time-zone" class="component-gap">Time Zone</Label>
 
   <AppComponentGap size="small" />
@@ -113,7 +168,7 @@ const formattedTimeZones = computed(() => {
           <p class="text-sm text-muted-foreground">{{ timeInfo.localDateTime }}</p>
         </div>
         <div class="flex justify-between">
-          <p class="text-sm font-medium">Utc Ticks</p>
+          <p class="text-sm font-medium">UTC Ticks</p>
           <p class="text-sm text-muted-foreground">{{ timeInfo.utcTicks }}</p>
         </div>
         <div class="flex justify-between">
@@ -126,40 +181,81 @@ const formattedTimeZones = computed(() => {
 
   <AppComponentGap />
 
-  <Label for="timestamp">Timestamp</Label>
-  <Input v-model="timestamp" id="timestamp" type="number" :default-value="timestamp" min="0" class="w-full" />
+  <div class="input-header">
+    <Label for="timestamp" class="align-bottom">Timestamp</Label>
+    <div class="button-group">
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button variant="outline" size="icon" @click="setCurrentDateTime">
+              <CalendarCheck class="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Set Current Date and Time</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button variant="outline" size="icon" @click="pasteFromClipboard">
+              <ClipboardPaste class="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Paste from Clipboard</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button variant="outline" size="icon" @click="copyToClipboard">
+              <Copy class="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Copy to Clipboard</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    </div>
+  </div>
+  <AppComponentGap size="small" />
+  <Input v-model="timestamp" id="timestamp" type="number" :default-value="timestamp" class="w-full" @blur="handleBlur" @change="handleBlur" />
 
   <AppComponentGap />
 
   <div class="grid grid-cols-6 gap-4">
     <div>
       <Label for="year">Year</Label>
-      <Input v-model="year" id="year" type="number" :default-value="year" min="0" class="w-full" />
+      <Input v-model="year" id="year" type="number" :default-value="year" min="0" class="w-full" @blur="handleBlur" @change="handleBlur" />
     </div>
 
     <div>
       <Label for="month">Month</Label>
-      <Input v-model="month" id="month" type="number" :default-value="month" min="1" max="12" class="w-full" />
+      <Input v-model="month" id="month" type="number" :default-value="month" min="1" max="12" class="w-full" @blur="handleBlur" @change="handleBlur" />
     </div>
 
     <div>
       <Label for="day">Day</Label>
-      <Input v-model="day" id="day" type="number" :default-value="day" min="1" max="31" class="w-full" />
+      <Input v-model="day" id="day" type="number" :default-value="day" min="1" max="31" class="w-full" @blur="handleBlur" @change="handleBlur" />
     </div>
 
     <div>
       <Label for="hours">Hours(24 Hour)</Label>
-      <Input v-model="hours" id="hours" type="number" :default-value="hours" min="0" max="23" class="w-full" />
+      <Input v-model="hours" id="hours" type="number" :default-value="hours" min="0" max="23" class="w-full" @blur="handleBlur" @change="handleBlur" />
     </div>
 
     <div>
       <Label for="minutes">Minutes</Label>
-      <Input v-model="minutes" id="minutes" type="number" :default-value="minutes" min="0" max="59" class="w-full" />
+      <Input v-model="minutes" id="minutes" type="number" :default-value="minutes" min="0" max="59" class="w-full" @blur="handleBlur" @change="handleBlur" />
     </div>
 
     <div>
       <Label for="seconds">Seconds</Label>
-      <Input v-model="seconds" id="seconds" type="number" :default-value="seconds" min="0" max="59" class="w-full" />
+      <Input v-model="seconds" id="seconds" type="number" :default-value="seconds" min="0" max="59" class="w-full" @blur="handleBlur" @change="handleBlur" />
     </div>
   </div>
 </template>
@@ -167,5 +263,15 @@ const formattedTimeZones = computed(() => {
 <style scoped>
 .text-muted-foreground {
   color: #6b7280; /* Tailwind gray-500 equivalent */
+}
+.input-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; /* Align items at the bottom */
+}
+
+.button-group {
+  display: flex;
+  gap: 8px; /* Adjust the gap between buttons as needed */
 }
 </style>

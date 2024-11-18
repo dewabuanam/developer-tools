@@ -9,6 +9,11 @@ import yaml from 'js-yaml'
 import { Button } from '@/components/ui/button'
 import { ClipboardPaste, X, FolderOpen, Copy } from 'lucide-vue-next'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { useToast } from '@/components/ui/toast/use-toast'
+import { Toaster } from '@/components/ui/toast'
+
+const { toast } = useToast()
 
 const ConversionTitle = 'Conversion'
 const ConversionDesc = 'Select which conversion mode you want to use'
@@ -46,6 +51,10 @@ const pasteFromClipboard = async () => {
   try {
     const text = await navigator.clipboard.readText()
     inputText.value = text
+    toast({
+      title: 'Pasted from Clipboard',
+      description: 'Input text has been updated from clipboard contents.',
+    })
   } catch (error) {
     console.error('Failed to read clipboard contents: ', error)
   }
@@ -58,6 +67,10 @@ const openFile = async () => {
       const file = await fileHandle.getFile()
       const text = await file.text()
       inputText.value = text
+      toast({
+        title: 'File Opened',
+        description: 'Input text has been updated from the selected file.',
+      })
     } catch (error) {
       console.error('Failed to open file: ', error)
     }
@@ -68,11 +81,19 @@ const openFile = async () => {
 
 const clearInput = () => {
   inputText.value = ''
+  toast({
+    title: 'Input Cleared',
+    description: 'Input text has been cleared.',
+  })
 }
 
 const copyToClipboard = async () => {
   try {
     await navigator.clipboard.writeText(outputText.value)
+    toast({
+      title: 'Copied to Clipboard',
+      description: 'Output text has been copied to clipboard.',
+    })
   } catch (error) {
     console.error('Failed to copy to clipboard: ', error)
   }
@@ -88,6 +109,7 @@ watch(selectedConversion, () => {
 </script>
 
 <template>
+  <Toaster />
   <Label for="email">Configuration</Label>
   <AppComponentGap size="small" />
   <AppConfiguration
@@ -110,15 +132,42 @@ watch(selectedConversion, () => {
       <div class="input-header">
         <Label for="input">Input</Label>
         <div class="button-group">
-          <Button variant="outline" size="icon" @click="pasteFromClipboard">
-            <ClipboardPaste class="w-4 h-4" />
-          </Button>
-          <Button variant="outline" size="icon" @click="openFile">
-            <FolderOpen class="w-4 h-4" />
-          </Button>
-          <Button variant="outline" size="icon" @click="clearInput">
-            <X class="w-4 h-4" />
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button variant="outline" size="icon" @click="pasteFromClipboard">
+                  <ClipboardPaste class="w-4 h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Paste from Clipboard</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button variant="outline" size="icon" @click="openFile">
+                  <FolderOpen class="w-4 h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Open File</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button variant="outline" size="icon" @click="clearInput">
+                  <X class="w-4 h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Clear Input</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
       <AppComponentGap size="small" />
@@ -129,9 +178,18 @@ watch(selectedConversion, () => {
       <div class="input-header">
         <Label for="output">Output</Label>
         <div class="button-group">
-          <Button variant="outline" size="icon" @click="copyToClipboard">
-            <Copy class="w-4 h-4" />
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button variant="outline" size="icon" @click="copyToClipboard">
+                  <Copy class="w-4 h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Copy to Clipboard</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
       <AppComponentGap size="small" />
@@ -139,6 +197,7 @@ watch(selectedConversion, () => {
     </ResizablePanel>
   </ResizablePanelGroup>
 </template>
+
 <style scoped>
 .input-header {
   display: flex;
