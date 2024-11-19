@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { ref, watch, defineProps, defineEmits } from 'vue'
 import { Toaster, useToast } from '@/components/ui/toast'
+import {AppToaster} from "@/components/ui/app-toaster";
 const { toast } = useToast()
 
 const props = defineProps({
@@ -203,7 +204,7 @@ function validateAndSetAlert(newValue: string, base: number) {
 </script>
 
 <template>
-  <Toaster />
+  <AppToaster />
   <Alert v-if="alertMessage" variant="destructive">
     <TriangleAlert class="w-4 h-4" />
     <AlertTitle>Warning</AlertTitle>

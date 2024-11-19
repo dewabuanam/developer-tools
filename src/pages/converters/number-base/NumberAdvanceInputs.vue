@@ -12,6 +12,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import base32Encode from 'base32-encode'
 import base32Decode from 'base32-decode'
 import { defineProps } from 'vue'
+import {AppToaster} from "@/components/ui/app-toaster";
 
 const props = defineProps<{
   formatNumber: boolean
@@ -212,7 +213,7 @@ watch(() => props.formatNumber, () => {
 </script>
 
 <template>
-  <Toaster />
+  <AppToaster />
   <Alert v-if="alertMessage" variant="destructive">
     <AlertTitle>Warning</AlertTitle>
     <AlertDescription>{{ alertMessage }}</AlertDescription>

@@ -5,13 +5,12 @@ import { AppJsonEditor } from '@/components/ui/app-json-editor'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 import { ref, watch } from 'vue'
 import yaml from 'js-yaml'
-import { Button } from '@/components/ui/button'
 import { ClipboardPaste, X, FolderOpen, Copy, FileJson2, TextQuote } from 'lucide-vue-next'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useToast } from '@/components/ui/toast/use-toast'
-import { Toaster } from '@/components/ui/toast'
 import { AppButton } from '@/components/ui/app-button'
+import {AppToaster} from "@/components/ui/app-toaster";
 
 const { toast } = useToast()
 
@@ -107,7 +106,7 @@ watch(selectedConversion, () => {
 </script>
 
 <template>
-  <Toaster />
+  <AppToaster />
   <Label for="email">Configuration</Label>
   <AppComponentGap size="small" />
   <AppConfiguration
