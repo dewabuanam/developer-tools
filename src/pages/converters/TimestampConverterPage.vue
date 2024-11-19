@@ -141,7 +141,7 @@ const formattedTimeZones = computed(() => {
   <AppComponentGap size="small" />
 
   <Select v-model="selectedTimeZone" class="w-full">
-    <SelectTrigger class="app-input w-full">
+    <SelectTrigger class="w-full">
       <SelectValue placeholder="Select a timezone" />
     </SelectTrigger>
     <SelectContent>
@@ -161,19 +161,19 @@ const formattedTimeZones = computed(() => {
       <div class="grid gap-2">
         <div class="flex justify-between">
           <p class="text-sm font-medium">Offset</p>
-          <p class="text-sm ">{{ timeInfo.offset }}</p>
+          <p class="text-sm text-muted-foreground">{{ timeInfo.offset }}</p>
         </div>
         <div class="flex justify-between">
           <p class="text-sm font-medium">Local Date and Time</p>
-          <p class="text-sm ">{{ timeInfo.localDateTime }}</p>
+          <p class="text-sm text-muted-foreground">{{ timeInfo.localDateTime }}</p>
         </div>
         <div class="flex justify-between">
           <p class="text-sm font-medium">UTC Ticks</p>
-          <p class="text-sm ">{{ timeInfo.utcTicks }}</p>
+          <p class="text-sm text-muted-foreground">{{ timeInfo.utcTicks }}</p>
         </div>
         <div class="flex justify-between">
           <p class="text-sm font-medium">UTC Date and Time</p>
-          <p class="text-sm ">{{ timeInfo.utcDateTime }}</p>
+          <p class="text-sm text-muted-foreground">{{ timeInfo.utcDateTime }}</p>
         </div>
       </div>
     </CardContent>
@@ -188,7 +188,7 @@ const formattedTimeZones = computed(() => {
         <Tooltip>
           <TooltipTrigger>
             <Button variant="outline" size="icon" @click="setCurrentDateTime">
-              <CalendarCheck class="app-icon w-4 h-4" />
+              <CalendarCheck class="w-4 h-4" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -200,7 +200,7 @@ const formattedTimeZones = computed(() => {
         <Tooltip>
           <TooltipTrigger>
             <Button variant="outline" size="icon" @click="pasteFromClipboard">
-              <ClipboardPaste class="app-icon w-4 h-4" />
+              <ClipboardPaste class="w-4 h-4" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -212,7 +212,7 @@ const formattedTimeZones = computed(() => {
         <Tooltip>
           <TooltipTrigger>
             <Button variant="outline" size="icon" @click="copyToClipboard">
-              <Copy class="app-icon w-4 h-4" />
+              <Copy class="w-4 h-4" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -223,39 +223,39 @@ const formattedTimeZones = computed(() => {
     </div>
   </div>
   <AppComponentGap size="small" />
-  <Input v-model="timestamp" id="timestamp" type="number" :default-value="timestamp" class="app-input w-full" @blur="handleBlur" @change="handleBlur" />
+  <Input v-model="timestamp" id="timestamp" type="number" :default-value="timestamp" class="w-full" @blur="handleBlur" @change="handleBlur" />
 
   <AppComponentGap />
 
   <div class="grid grid-cols-6 gap-4">
     <div>
       <Label for="year">Year</Label>
-      <Input v-model="year" id="year" type="number" :default-value="year" min="0" class="app-input w-full" @blur="handleBlur" @change="handleBlur" />
+      <Input v-model="year" id="year" type="number" :default-value="year" min="0" class="w-full" @blur="handleBlur" @change="handleBlur" />
     </div>
 
     <div>
       <Label for="month">Month</Label>
-      <Input v-model="month" id="month" type="number" :default-value="month" min="1" max="12" class="app-input w-full" @blur="handleBlur" @change="handleBlur" />
+      <Input v-model="month" id="month" type="number" :default-value="month" min="1" max="12" class="w-full" @blur="handleBlur" @change="handleBlur" />
     </div>
 
     <div>
       <Label for="day">Day</Label>
-      <Input v-model="day" id="day" type="number" :default-value="day" min="1" max="31" class="app-input w-full" @blur="handleBlur" @change="handleBlur" />
+      <Input v-model="day" id="day" type="number" :default-value="day" min="1" max="31" class="w-full" @blur="handleBlur" @change="handleBlur" />
     </div>
 
     <div>
       <Label for="hours">Hours</Label>
-      <Input v-model="hours" id="hours" type="number" :default-value="hours" min="0" max="23" class="app-input w-full" @blur="handleBlur" @change="handleBlur" />
+      <Input v-model="hours" id="hours" type="number" :default-value="hours" min="0" max="23" class="w-full" @blur="handleBlur" @change="handleBlur" />
     </div>
 
     <div>
       <Label for="minutes">Minutes</Label>
-      <Input v-model="minutes" id="minutes" type="number" :default-value="minutes" min="0" max="59" class="app-input w-full" @blur="handleBlur" @change="handleBlur" />
+      <Input v-model="minutes" id="minutes" type="number" :default-value="minutes" min="0" max="59" class="w-full" @blur="handleBlur" @change="handleBlur" />
     </div>
 
     <div>
       <Label for="seconds">Seconds</Label>
-      <Input v-model="seconds" id="seconds" type="number" :default-value="seconds" min="0" max="59" class="app-input w-full" @blur="handleBlur" @change="handleBlur" />
+      <Input v-model="seconds" id="seconds" type="number" :default-value="seconds" min="0" max="59" class="w-full" @blur="handleBlur" @change="handleBlur" />
     </div>
   </div>
 </template>

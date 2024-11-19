@@ -11,7 +11,6 @@
     @change="log('change', $event)"
     @focus="log('focus', $event)"
     @blur="log('blur', $event)"
-    class="app-input"
   />
 </template>
 

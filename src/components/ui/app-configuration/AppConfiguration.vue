@@ -75,12 +75,12 @@ function handleChange(newValue: boolean) {
               variant="outline"
               role="combobox"
               :aria-expanded="open"
-              class="app-button w-[22svh] justify-between"
+              class="w-[22svh] justify-between"
             >
               {{ value
               ? props.listOptions.find((option) => option.value === value)?.key
               : "Select option..." }}
-              <ChevronsUpDown class="app-icon h-4 w-4 shrink-0 opacity-50" />
+              <ChevronsUpDown class="h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
           <PopoverContent class="w-[200px] p-0">
@@ -114,3 +114,10 @@ function handleChange(newValue: boolean) {
     </CardHeader>
   </Card>
 </template>
+
+<style scoped>
+.icon {
+  width: 24px;
+  height: 24px;
+}
+</style>

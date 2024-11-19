@@ -17,7 +17,7 @@ const delegatedProps = computed(() => {
     v-bind="delegatedProps"
     :class="
       cn(
-        'label text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+        'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
         props.class,
       )
     "
@@ -25,10 +25,3 @@ const delegatedProps = computed(() => {
     <slot />
   </Label>
 </template>
-
-
-<style scoped>
-.label {
-  color: hsl(var(--foreground));
-}
-</style>
