@@ -1,9 +1,10 @@
 <script setup lang="ts">
-
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 </script>
 
 <template>
-  <main>
-    <h1>Inspector Case Converter Page</h1>
-  </main>
+  <Alert variant="destructive">
+    <AlertTitle>Coming soon!</AlertTitle>
+    <AlertDescription>Feature on the way.</AlertDescription>
+  </Alert>
 </template>
