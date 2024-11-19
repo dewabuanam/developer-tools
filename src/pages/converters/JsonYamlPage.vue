@@ -193,7 +193,7 @@ watch(selectedConversion, () => {
         </div>
       </div>
       <AppComponentGap size="small" />
-      <AppJsonEditor v-model="outputText" readOnly />
+      <AppJsonEditor v-model="outputText" :readonly="true" />
     </ResizablePanel>
   </ResizablePanelGroup>
 </template>
