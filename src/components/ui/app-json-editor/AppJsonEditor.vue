@@ -37,7 +37,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const code = ref(`console.log('Hello, world!')`)
+    const code = ref(``)
     const extensions = [javascript()]
 
     // Create computed extensions to include readonly state and dark mode
