@@ -24,13 +24,13 @@ const props = defineProps({
 </script>
 
 <template>
-  <Card @click="$router.push(props.url)" class="cursor-pointer">
+  <Card @click="$router.push(props.url)" class="app-card cursor-pointer">
     <CardHeader>
       <component :is="props.icon" class="tool-icon" />
       <div>
         <CardTitle class="font-medium">{{ props.title }}</CardTitle>
         <AppComponentGap size="small"/>
-        <CardDescription v-if="props.description">{{ props.description }}</CardDescription>
+        <CardDescription v-if="props.description" class="app-card-description">{{ props.description }}</CardDescription>
       </div>
     </CardHeader>
   </Card>

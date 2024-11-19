@@ -3,74 +3,123 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 98%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 72.22% 50.59%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5% 64.9%;
-    --radius: .5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 240 10% 3.9%;
+        --card: 0 0% 98%;
+        --card-foreground: 240 10% 3.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 240 10% 3.9%;
+        --primary: 240 5.9% 10%;
+        --primary-foreground: 0 0% 98%;
+        --secondary: 240 4.8% 95.9%;
+        --secondary-foreground: 240 5.9% 10%;
+        --muted: 240 4.8% 95.9%;
+        --muted-foreground: 240 3.8% 46.1%;
+        --accent: 240 4.8% 95.9%;
+        --accent-foreground: 240 5.9% 10%;
+        --destructive: 0 72.22% 50.59%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 240 5.9% 90%;
+        --input: 240 5.9% 90%;
+        --ring: 240 5% 64.9%;
+        --radius: .5rem;
+        --sidebar-background: 21 100% 43%;
+        --sidebar-foreground: 240 5.3% 26.1%;
+        --sidebar-component: 0 0% 98%;
+        --sidebar-component-primary: 21 100% 43%;
+        --sidebar-primary: 240 5.9% 10%;
+        --sidebar-primary-foreground: 0 0% 98%;
+        --sidebar-accent: 240 4.8% 95.9%;
+        --sidebar-accent-foreground: 240 5.9% 10%;
+        --sidebar-border: 220 13% 91%;
+        --sidebar-ring: 217.2 91.2% 59.8%;
+        --button-component: 0 0% 98%;
+        --button-component-primary: 21 100% 43%;
+        --card-component: 0 0% 98%;
+        --card-component-primary: 21 100% 43%;
+    }
 
-  .dark {
-    --background: 238 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 3.7% 15.9% / 50%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --sidebar-background: 240deg 3.7% 15.9% / 50%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%
-  }
+    .dark {
+        --background: 238 10% 3.9%;
+        --foreground: 0 0% 98%;
+        --card: 240 3.7% 15.9% / 50%;
+        --card-foreground: 0 0% 98%;
+        --popover: 240 10% 3.9%;
+        --popover-foreground: 0 0% 98%;
+        --primary: 0 0% 98%;
+        --primary-foreground: 240 5.9% 10%;
+        --secondary: 240 3.7% 15.9%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 240 3.7% 15.9%;
+        --muted-foreground: 240 5% 64.9%;
+        --accent: 240 3.7% 15.9%;
+        --accent-foreground: 0 0% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 85.7% 97.3%;
+        --border: 240 3.7% 15.9%;
+        --input: 240 3.7% 15.9%;
+        --ring: 240 4.9% 83.9%;
+        --sidebar-background: 240deg 3.7% 15.9% / 50%;
+        --sidebar-foreground: 0 0% 98%;
+        --sidebar-component-background: 0 0% 98%;
+        --sidebar-component: 0 0% 98%;
+        --sidebar-component-primary: 0 0% 98%;
+        --sidebar-primary: 224.3 76.3% 48%;
+        --sidebar-primary-foreground: 0 0% 100%;
+        --sidebar-accent: 240 3.7% 15.9%;
+        --sidebar-accent-foreground: 240 4.8% 95.9%;
+        --sidebar-border: 240 3.7% 15.9%;
+        --sidebar-ring: 217.2 91.2% 59.8%;
+        --button-component: 238 10% 3.9%;
+        --button-component-primary: 0 0% 98%;
+        --card-component: 238 10% 3.9%;
+        --card-component-primary: 0 0% 98%;
+    }
+
+    .app-sidebar-text,
+    .app-sidebar-label,
+    .app-sidebar-icon {
+        color: hsl(var(--sidebar-component));
+    }
+    .app-text,
+    .app-icon,
+    .app-sidebar-label:hover,
+    .app-sidebar-icon:hover,
+    .app-sidebar-button:hover .app-sidebar-icon,
+    .app-sidebar-button:hover .app-sidebar-label {
+        color: hsl(var(--sidebar-component-primary));
+    }
+    
+    .app-card{
+        color: hsl(var(--card-component-primary)) !important;
+        background: hsl(var(--card-component)) !important;
+    }
+    
+    .app-card:hover .app-card-description,
+    .app-card:hover{
+        color: hsl(var(--card-component)) !important;
+        background: hsl(var(--card-component-primary)) !important;
+    }
+
+    .app-button {
+        background: hsl(var(--button-component)) !important;
+        color: hsl(var(--button-component-primary)) !important
+    }
+
+    .app-button:hover {
+        background: hsl(var(--button-component-primary)) !important;
+        color: hsl(var(--button-component)) !important;
+    }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground
-  }
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground
+    }
 }
 

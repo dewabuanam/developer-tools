@@ -43,8 +43,8 @@ watch(isDark, (newVal) => {
     <main class="content">
       <div class="router-page">
         <div class="menu">
-          <SidebarTrigger class="w-fit h-full app-icon" />
-          <ChevronRight class="w-4 app-icon" />
+          <SidebarTrigger class="w-fit h-full" />
+          <ChevronRight class="w-4" />
           <Label for="title" class="title-label">
             {{ typeof route.name === 'string' ? kebabToPascal(route.name) : '' }}
           </Label>

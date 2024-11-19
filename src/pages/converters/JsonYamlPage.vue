@@ -11,6 +11,7 @@ import { AppComponentGap } from '@/components/ui/app-component-gap'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useToast } from '@/components/ui/toast/use-toast'
 import { Toaster } from '@/components/ui/toast'
+import { AppButton } from '@/components/ui/app-button'
 
 const { toast } = useToast()
 
@@ -132,9 +133,9 @@ watch(selectedConversion, () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <Button variant="outline" size="icon" @click="pasteFromClipboard">
+                <AppButton variant="outline" size="icon" @click="pasteFromClipboard">
                   <ClipboardPaste class="w-4 h-4" />
-                </Button>
+                </AppButton>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Paste from Clipboard</p>
@@ -144,9 +145,9 @@ watch(selectedConversion, () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <Button variant="outline" size="icon" @click="openFile">
+                <AppButton variant="outline" size="icon" @click="openFile">
                   <FolderOpen class="w-4 h-4" />
-                </Button>
+                </AppButton>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Open File</p>
@@ -156,9 +157,9 @@ watch(selectedConversion, () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <Button variant="outline" size="icon" @click="clearInput">
+                <AppButton variant="outline" size="icon" @click="clearInput">
                   <X class="w-4 h-4" />
-                </Button>
+                </AppButton>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Clear Input</p>
@@ -178,9 +179,9 @@ watch(selectedConversion, () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <Button variant="outline" size="icon" @click="copyToClipboard">
+                <AppButton variant="outline" size="icon" @click="copyToClipboard">
                   <Copy class="w-4 h-4" />
-                </Button>
+                </AppButton>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Copy to Clipboard</p>

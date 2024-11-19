@@ -5,7 +5,7 @@ import {
   SidebarContent,
   SidebarMenuSub,
   SidebarMenuButton,
-  SidebarMenuSubItem, SidebarMenu, SidebarMenuItem, SidebarHeader
+  SidebarMenuSubItem, SidebarMenu, SidebarMenuItem, SidebarHeader, SidebarFooter
 } from '@/components/ui/sidebar'
 import {
   Collapsible,
@@ -39,14 +39,13 @@ const navigateTo = (url: string) => {
   <Sidebar>
     <ScrollArea class="h-[100svh] rounded-md">
       <SidebarHeader class="flex flex-col ">
-
         <Label
-          class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 logo-text ">
+          class="app-sidebar-text text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 logo-text ">
           Developer Tools</Label>
 
         <Label
-          class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 description-text ">
-          v{{ version }}</Label>
+          class="app-sidebar-text text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 description-text ">
+          by FoxSensei</Label>
         <Avatar size="xxl" class="avatar-margin-top justify-center bg-transparent" shape="square">
           <AvatarImage :src="logo" alt="@radix-vue" class="object-center" />
         </Avatar>
@@ -58,21 +57,21 @@ const navigateTo = (url: string) => {
               <SidebarMenuItem>
                 <template v-if="item.children && item.children.length > 0">
                   <CollapsibleTrigger asChild @click="navigateTo(item.url)">
-                    <SidebarMenuButton>
+                    <SidebarMenuButton class="app-sidebar-button">
                       <div class="flex items-center space-x-2 cursor-pointer">
-                        <component :is="item.icon" class="w-5 h-5" />
-                        <span class="title-text font-medium">{{ item.title }}</span>
+                        <component :is="item.icon" class="w-5 h-5 app-sidebar-icon" />
+                        <span class="title-text font-medium app-sidebar-label">{{ item.title }}</span>
                       </div>
                       <ChevronDown
-                        class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                        class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180 app-sidebar-icon" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                 </template>
                 <template v-else>
-                  <SidebarMenuButton @click="navigateTo(item.url)">
+                  <SidebarMenuButton @click="navigateTo(item.url)" class="app-sidebar-button">
                     <div class="flex items-center space-x-2 cursor-pointer">
-                      <component :is="item.icon" class="w-5 h-5" />
-                      <span class="title-text font-medium">{{ item.title }}</span>
+                      <component :is="item.icon" class="w-5 h-5 app-sidebar-icon" />
+                      <span class="title-text font-medium app-sidebar-label">{{ item.title }}</span>
                     </div>
                   </SidebarMenuButton>
                 </template>
@@ -80,10 +79,10 @@ const navigateTo = (url: string) => {
                   <SidebarMenuSub>
                     <template v-for="child in item.children">
                       <SidebarMenuSubItem>
-                        <SidebarMenuButton asChild>
+                        <SidebarMenuButton class="app-sidebar-button" asChild>
                           <div @click="navigateTo(child.url)" class="cursor-pointer">
-                            <component :is="child.icon" />
-                            <span class="font-medium">{{ child.title }}</span>
+                            <component :is="child.icon" class="app-sidebar-icon" />
+                            <span class="font-medium app-sidebar-label">{{ child.title }}</span>
                           </div>
                         </SidebarMenuButton>
                       </SidebarMenuSubItem>
@@ -96,6 +95,12 @@ const navigateTo = (url: string) => {
         </template>
       </SidebarContent>
     </ScrollArea>
+    <SidebarFooter>
+      <Label
+        class="app-sidebar-text justify-end text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 description-text text-right">
+        v{{ version }}
+      </Label>
+    </SidebarFooter>
   </Sidebar>
 </template>
 
@@ -113,6 +118,6 @@ const navigateTo = (url: string) => {
 }
 
 .avatar-margin-top {
-  margin-top: -30px; /* Adjust the margin as needed */
+  margin-top: -20px; /* Adjust the margin as needed */
 }
 </style>
