@@ -115,6 +115,7 @@ watch(selectedConversion, () => {
     :description="ConversionDesc"
     :listOptions="ConversionDropdown"
     :icon="FileJson2"
+    type="dropdown"
     v-model="selectedConversion"
   />
   <AppComponentGap />
@@ -122,6 +123,7 @@ watch(selectedConversion, () => {
     :title="IndentationTitle"
     :listOptions="IndentationDropdown"
     :icon="TextQuote"
+    type="dropdown"
     v-model="selectedIndentation"
   />
   <AppComponentGap size="large" />

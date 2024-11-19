@@ -53,7 +53,7 @@ watch(isDark, (newVal) => {
           <Label for="title" class="title-label">
             {{ typeof route.name === 'string' ? kebabToPascal(route.name) : '' }}
           </Label>
-          <Switch :checked="isDark" @update:checked="toggleTheme" class="ml-auto h-full">
+          <Switch :checked="isDark" @update:checked="toggleTheme" class="ml-auto h-full data-[state=unchecked]:bg-[hsl(var(--button-component-primary))]">
             <template #thumb>
               <Moon v-if="isDark" class="app-icon h-full w-full justify-center p-0.5" />
               <Sun v-else class="app-icon h-full w-full justify-center p-0.5" />

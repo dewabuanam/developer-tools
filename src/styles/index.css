@@ -20,9 +20,9 @@
         --accent-foreground: 240 5.9% 10%;
         --destructive: 0 72.22% 50.59%;
         --destructive-foreground: 0 0% 98%;
-        --border: 240 5.9% 90%;
+        --border: 21 100% 43%;
         --input: 240 5.9% 90%;
-        --ring: 240 5% 64.9%;
+        --ring: 0 0% 0% / 0%;
         --radius: .5rem;
         --sidebar-background: 21 100% 43%;
         --sidebar-foreground: 240 5.3% 26.1%;
@@ -59,7 +59,7 @@
         --destructive-foreground: 0 85.7% 97.3%;
         --border: 240 3.7% 15.9%;
         --input: 240 3.7% 15.9%;
-        --ring: 240 4.9% 83.9%;
+        --ring: 0 0% 0% / 0%;
         --sidebar-background: 240deg 3.7% 15.9% / 50%;
         --sidebar-foreground: 0 0% 98%;
         --sidebar-component-background: 0 0% 98%;
@@ -110,6 +110,16 @@
     .app-button:hover {
         background: hsl(var(--button-component-primary)) !important;
         color: hsl(var(--button-component)) !important;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 8px; /* Adjust the gap between buttons as needed */
+    }
+    .input-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end; /* Align items at the bottom */
     }
 }
 

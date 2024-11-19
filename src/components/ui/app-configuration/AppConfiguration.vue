@@ -6,6 +6,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { ChevronsUpDown, Check } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 const props = defineProps({
   title: {
@@ -18,7 +19,7 @@ const props = defineProps({
   },
   listOptions: {
     type: Array as () => { key: string, value: string }[],
-    required: true
+    required: false
   },
   icon: {
     type: [Object, Function],
@@ -28,14 +29,27 @@ const props = defineProps({
     type: String,
     required: true
   },
-  useSwitch: {
-    type: Boolean,
+  type: {
+    type: String,
+    required: true,
+    validator: (value: string) => ['dropdown', 'switch', 'inputNumber', 'inputText'].includes(value)
+  },
+  switchText: {
+    type: String,
     required: false,
-    default: false
+    default: ''
+  },
+  maxInputNumber: {
+    type: Number,
+    required: false
+  },
+  minInputNumber: {
+    type: Number,
+    required: false
   }
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'blur'])
 
 const selectedOption = ref(props.modelValue)
 const open = ref(false)
@@ -47,6 +61,27 @@ watch(selectedOption, (newValue) => {
 
 function handleChange(newValue: boolean) {
   selectedOption.value = newValue ? '1' : '0'
+}
+
+function handleInputChange(event: Event) {
+  const target = event.target as HTMLInputElement
+  selectedOption.value = target.value
+}
+
+function validateInput(event: Event) {
+  const target = event.target as HTMLInputElement
+  let value = parseFloat(target.value)
+  if (props.maxInputNumber !== undefined && value > props.maxInputNumber) {
+    target.value = props.maxInputNumber.toString()
+  }
+  if (props.minInputNumber !== undefined && value < props.minInputNumber) {
+    target.value = props.minInputNumber.toString()
+  }
+  selectedOption.value = target.value
+}
+
+function handleBlur() {
+  emit('blur')
 }
 </script>
 
@@ -63,13 +98,15 @@ function handleChange(newValue: boolean) {
             </CardDescription>
           </div>
         </div>
-        <div v-if="useSwitch">
+        <div v-if="type === 'switch'" class="flex items-center space-x-2">
+          <span>{{ switchText }}</span>
           <Switch
+            class="data-[state=checked]:bg-[hsl(var(--button-component-primary))]"
             :checked="selectedOption === '1'"
             @update:checked="handleChange"
           />
         </div>
-        <Popover v-else v-model:open="open">
+        <Popover v-else-if="type === 'dropdown'" v-model:open="open">
           <PopoverTrigger as-child>
             <Button
               variant="outline"
@@ -78,8 +115,8 @@ function handleChange(newValue: boolean) {
               class="w-[22svh] justify-between"
             >
               {{ value
-              ? props.listOptions.find((option) => option.value === value)?.key
-              : "Select option..." }}
+              ? (props.listOptions ?? []).find((option) => option.value === value)?.key
+              : 'Select option...' }}
               <ChevronsUpDown class="h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
@@ -90,7 +127,7 @@ function handleChange(newValue: boolean) {
               <CommandList>
                 <CommandGroup>
                   <CommandItem
-                    v-for="option in props.listOptions"
+                    v-for="option in (props.listOptions ?? [])"
                     :key="option.value"
                     :value="option.value"
                     @select="(ev) => {
@@ -110,14 +147,18 @@ function handleChange(newValue: boolean) {
             </Command>
           </PopoverContent>
         </Popover>
+        <Input v-else-if="type === 'inputText'" class="w-[22svh]" v-model="selectedOption" @input="handleInputChange" @blur="handleBlur" />
+        <Input
+          v-else-if="type === 'inputNumber'"
+          class="w-[22svh]"
+          v-model="selectedOption"
+          type="number"
+          :max="props.maxInputNumber"
+          :min="props.minInputNumber"
+          @input="validateInput"
+          @blur="handleBlur"
+        />
       </div>
     </CardHeader>
   </Card>
 </template>
-
-<style scoped>
-.icon {
-  width: 24px;
-  height: 24px;
-}
-</style>

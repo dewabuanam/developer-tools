@@ -37,6 +37,7 @@ const binary = ref('')
     :listOptions="FormatNumberDropdown"
     :icon="ALargeSmall"
     v-model="selectedFormatNumber"
+    type="switch"
     use-switch
     id="configuration"
   />
@@ -45,6 +46,7 @@ const binary = ref('')
     :title="AdvanceModeTitle"
     :listOptions="AdvanceModeDropdown"
     :icon="Cog"
+    type="switch"
     v-model="selectedAdvanceMode"
     use-switch
   />

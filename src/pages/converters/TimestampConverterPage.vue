@@ -264,14 +264,4 @@ const formattedTimeZones = computed(() => {
 .text-muted-foreground {
   color: #6b7280; /* Tailwind gray-500 equivalent */
 }
-.input-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end; /* Align items at the bottom */
-}
-
-.button-group {
-  display: flex;
-  gap: 8px; /* Adjust the gap between buttons as needed */
-}
 </style>

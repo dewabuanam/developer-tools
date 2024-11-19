@@ -222,6 +222,7 @@ watch(() => props.formatNumber, () => {
     :title="InputDictTitle"
     :listOptions="InputDictDropdown"
     :icon="ArrowRight"
+    type="dropdown"
     v-model="selectedInputDict"
   />
   <AppComponentGap size="small" />
@@ -263,6 +264,7 @@ watch(() => props.formatNumber, () => {
     :title="OutputDictTitle"
     :listOptions="OutputDictDropdown"
     :icon="ArrowLeft"
+    type="dropdown"
     v-model="selectedOutputDict"
   />
   <AppComponentGap size="small" />
