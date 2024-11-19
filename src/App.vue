@@ -61,7 +61,7 @@ watch(isDark, (newVal) => {
           </Switch>
         </div>
         <AppComponentGap size="large" />
-        <ScrollArea class="h-[88svh]">
+        <ScrollArea class="h-[91.1svh]">
           <router-view />
         </ScrollArea>
       </div>
