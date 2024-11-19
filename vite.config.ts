@@ -18,7 +18,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       manifest: {
         name: 'Developer Tools by FoxSensei',
-        short_name: 'DevTools',
+        short_name: 'DevTools by FoxSensei',
         description: 'Developer Tools application',
         theme_color: '#DB4D00',
         icons: [
