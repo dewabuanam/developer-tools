@@ -2,7 +2,7 @@
 import { Label } from '@/components/ui/label'
 import { AppConfiguration } from '@/components/ui/app-configuration'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
-import { ClipboardPaste, Copy, Settings } from 'lucide-vue-next'
+import { ArrowLeft, ArrowRight, ClipboardPaste, Copy, Settings } from 'lucide-vue-next'
 import { ref, watch } from 'vue'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
@@ -221,7 +221,7 @@ watch(() => props.formatNumber, () => {
   <AppConfiguration
     :title="InputDictTitle"
     :listOptions="InputDictDropdown"
-    :icon="Settings"
+    :icon="ArrowRight"
     v-model="selectedInputDict"
   />
   <AppComponentGap size="small" />
@@ -262,7 +262,7 @@ watch(() => props.formatNumber, () => {
   <AppConfiguration
     :title="OutputDictTitle"
     :listOptions="OutputDictDropdown"
-    :icon="Settings"
+    :icon="ArrowLeft"
     v-model="selectedOutputDict"
   />
   <AppComponentGap size="small" />
@@ -286,3 +286,16 @@ watch(() => props.formatNumber, () => {
   <AppComponentGap size="small" />
   <Input v-model="output" type="text" :default-value="output" class="w-full" readonly />
 </template>
+
+<style scoped>
+.input-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; /* Align items at the bottom */
+}
+
+.button-group {
+  display: flex;
+  gap: 8px; /* Adjust the gap between buttons as needed */
+}
+</style>

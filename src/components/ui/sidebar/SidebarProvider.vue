@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { cn } from '@/lib/utils'
-import { useEventListener, useVModel } from '@vueuse/core'
+import { useEventListener, useMediaQuery, useVModel } from '@vueuse/core'
 import { TooltipProvider } from 'radix-vue'
 import { computed, type HTMLAttributes, type Ref, ref } from 'vue'
 import {
@@ -25,7 +25,7 @@ const emits = defineEmits<{
   'update:open': [open: boolean]
 }>()
 
-const isMobile = ref(false) // useIsMobile()
+const isMobile = useMediaQuery("(max-width: 768px)");
 const openMobile = ref(false)
 
 const open = useVModel(props, 'open', emits, {
@@ -46,7 +46,9 @@ function setOpenMobile(value: boolean) {
 
 // Helper to toggle the sidebar.
 function toggleSidebar() {
-  return isMobile.value ? setOpenMobile(!open.value) : setOpen(!open.value)
+  return isMobile.value
+    ? setOpenMobile(!openMobile.value)
+    : setOpen(!open.value);
 }
 
 useEventListener('keydown', (event: KeyboardEvent) => {

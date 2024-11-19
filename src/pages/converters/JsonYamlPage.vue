@@ -6,7 +6,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/componen
 import { ref, watch } from 'vue'
 import yaml from 'js-yaml'
 import { Button } from '@/components/ui/button'
-import { ClipboardPaste, X, FolderOpen, Copy, Settings } from 'lucide-vue-next'
+import { ClipboardPaste, X, FolderOpen, Copy, FileJson2, TextQuote } from 'lucide-vue-next'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useToast } from '@/components/ui/toast/use-toast'
@@ -113,18 +113,18 @@ watch(selectedConversion, () => {
     :title="ConversionTitle"
     :description="ConversionDesc"
     :listOptions="ConversionDropdown"
-    :icon="Settings"
+    :icon="FileJson2"
     v-model="selectedConversion"
   />
   <AppComponentGap />
   <AppConfiguration
     :title="IndentationTitle"
     :listOptions="IndentationDropdown"
-    :icon="Settings"
+    :icon="TextQuote"
     v-model="selectedIndentation"
   />
   <AppComponentGap size="large" />
-  <ResizablePanelGroup direction="horizontal" class="max-h-[620px]">
+  <ResizablePanelGroup direction="horizontal" class="max-h-[1000px]">
     <ResizablePanel>
       <div class="input-header">
         <Label for="input">Input</Label>
@@ -190,7 +190,7 @@ watch(selectedConversion, () => {
         </div>
       </div>
       <AppComponentGap size="small" />
-      <AppJsonEditor v-model="outputText" readOnly dar />
+      <AppJsonEditor v-model="outputText" readOnly />
     </ResizablePanel>
   </ResizablePanelGroup>
 </template>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { defineProps } from 'vue';
+import { AppComponentGap } from '@/components/ui/app-component-gap'
 
 const props = defineProps({
   title: {
@@ -27,7 +28,8 @@ const props = defineProps({
     <CardHeader>
       <component :is="props.icon" class="tool-icon" />
       <div>
-        <CardTitle>{{ props.title }}</CardTitle>
+        <CardTitle class="font-medium">{{ props.title }}</CardTitle>
+        <AppComponentGap size="small"/>
         <CardDescription v-if="props.description">{{ props.description }}</CardDescription>
       </div>
     </CardHeader>

@@ -4,9 +4,15 @@ import { AppSidebar } from '@/components/ui/app-sidebar'
 import { useRoute } from 'vue-router'
 import { menuItems } from '@/constants/MenuItems'
 import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
+import { ChevronRight, Sun, Moon } from 'lucide-vue-next'
+import { ref, watch } from 'vue'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 const route = useRoute()
+
+const isDark = ref(true)
 
 const kebabToPascal = (str: string) => {
   return str
@@ -14,19 +20,43 @@ const kebabToPascal = (str: string) => {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join('-')
 }
+
+function toggleTheme() {
+  isDark.value = !isDark.value
+}
+
+watch(isDark, (newVal) => {
+  if (newVal) {
+    document.body.classList.add('dark')
+  } else {
+    document.body.classList.remove('dark')
+  }
+}, { immediate: true })
+
 </script>
 
 <template>
   <SidebarProvider>
     <AppSidebar :menuItems="menuItems" />
-    <SidebarTrigger />
     <main class="content">
       <div class="router-page">
-        <Label for="title" class="title-label">
-          {{ typeof route.name === 'string' ? kebabToPascal(route.name) : '' }}
-        </Label>
+        <div class="menu">
+          <SidebarTrigger class="w-fit h-full" />
+          <ChevronRight class="w-4" />
+          <Label for="title" class="title-label">
+            {{ typeof route.name === 'string' ? kebabToPascal(route.name) : '' }}
+          </Label>
+          <Switch :checked="isDark" @update:checked="toggleTheme" class="ml-auto h-full">
+            <template #thumb>
+              <Moon v-if="isDark" class="h-full w-full justify-center p-0.5" />
+              <Sun v-else class="h-full w-full justify-center p-0.5" />
+            </template>
+          </Switch>
+        </div>
         <AppComponentGap size="large" />
-        <router-view />
+        <ScrollArea class="h-[88svh]">
+          <router-view />
+        </ScrollArea>
       </div>
     </main>
   </SidebarProvider>
@@ -45,7 +75,15 @@ const kebabToPascal = (str: string) => {
 }
 
 .title-label {
-  font-size: 24px; /* Increase the label size */
-  font-weight: bold; /* Make the label bold */
+  font-size: 16px; /* Increase the label size */
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+}
+
+.ml-auto {
+  margin-left: auto;
 }
 </style>

@@ -244,7 +244,7 @@ const formattedTimeZones = computed(() => {
     </div>
 
     <div>
-      <Label for="hours">Hours(24 Hour)</Label>
+      <Label for="hours">Hours</Label>
       <Input v-model="hours" id="hours" type="number" :default-value="hours" min="0" max="23" class="w-full" @blur="handleBlur" @change="handleBlur" />
     </div>
 

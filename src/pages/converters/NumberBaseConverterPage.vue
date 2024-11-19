@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { Label } from '@/components/ui/label'
 import { AppConfiguration } from '@/components/ui/app-configuration'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
-import { Settings } from 'lucide-vue-next'
+import { ALargeSmall, Cog } from 'lucide-vue-next'
 import NumberBaseInputs from './number-base/NumberBaseInputs.vue'
 import NumberAdvanceInputs from './number-base/NumberAdvanceInputs.vue'
 
@@ -35,7 +35,7 @@ const binary = ref('')
   <AppConfiguration
     :title="FormatNumberTitle"
     :listOptions="FormatNumberDropdown"
-    :icon="Settings"
+    :icon="ALargeSmall"
     v-model="selectedFormatNumber"
     use-switch
     id="configuration"
@@ -44,7 +44,7 @@ const binary = ref('')
   <AppConfiguration
     :title="AdvanceModeTitle"
     :listOptions="AdvanceModeDropdown"
-    :icon="Settings"
+    :icon="Cog"
     v-model="selectedAdvanceMode"
     use-switch
   />

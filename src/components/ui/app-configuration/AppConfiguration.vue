@@ -2,6 +2,10 @@
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ref, watch } from 'vue'
 import { Switch } from '@/components/ui/switch'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
+import { ChevronsUpDown, Check } from 'lucide-vue-next'
+import { Button } from '@/components/ui/button'
 
 const props = defineProps({
   title: {
@@ -34,6 +38,8 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const selectedOption = ref(props.modelValue)
+const open = ref(false)
+const value = ref(props.modelValue)
 
 watch(selectedOption, (newValue) => {
   emit('update:modelValue', newValue)
@@ -49,9 +55,9 @@ function handleChange(newValue: boolean) {
     <CardHeader>
       <div class="flex items-center justify-between w-full">
         <div class="flex items-center space-x-2">
-          <component :is="icon" class="icon" />
+          <component :is="icon" class="h-4 w-4" />
           <div>
-            <CardTitle class="text-left">{{ title }}</CardTitle>
+            <CardTitle class="text-left items-center text-[1.2rem]">{{ title }}</CardTitle>
             <CardDescription v-if="description" class="text-left">
               {{ description }}
             </CardDescription>
@@ -63,11 +69,47 @@ function handleChange(newValue: boolean) {
             @update:checked="handleChange"
           />
         </div>
-        <select v-else v-model="selectedOption" class="dropdown">
-          <option v-for="option in listOptions" :key="option.key" :value="option.value">
-            {{ option.key }}
-          </option>
-        </select>
+        <Popover v-else v-model:open="open">
+          <PopoverTrigger as-child>
+            <Button
+              variant="outline"
+              role="combobox"
+              :aria-expanded="open"
+              class="w-[22svh] justify-between"
+            >
+              {{ value
+              ? props.listOptions.find((option) => option.value === value)?.key
+              : "Select option..." }}
+              <ChevronsUpDown class="h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent class="w-[200px] p-0">
+            <Command>
+              <CommandInput class="h-9" placeholder="Search option..." />
+              <CommandEmpty>No option found.</CommandEmpty>
+              <CommandList>
+                <CommandGroup>
+                  <CommandItem
+                    v-for="option in props.listOptions"
+                    :key="option.value"
+                    :value="option.value"
+                    @select="(ev) => {
+                      if (typeof ev.detail.value === 'string') {
+                        value = ev.detail.value
+                      }
+                      open = false
+                    }"
+                  >
+                    {{ option.key }}
+                    <Check
+                      :class="['ml-auto h-4 w-4', value === option.value ? 'opacity-100' : 'opacity-0']"
+                    />
+                  </CommandItem>
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
       </div>
     </CardHeader>
   </Card>
@@ -77,11 +119,5 @@ function handleChange(newValue: boolean) {
 .icon {
   width: 24px;
   height: 24px;
-}
-.dropdown {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  min-width: 120px;
 }
 </style>
