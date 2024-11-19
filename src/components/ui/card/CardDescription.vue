@@ -8,7 +8,13 @@ const props = defineProps<{
 </script>
 
 <template>
-  <p :class="cn('text-sm text-muted-foreground', props.class)">
+  <p :class="cn('text-sm text-muted-foreground card-description', props.class)">
     <slot />
   </p>
 </template>
+
+<style scoped>
+.card-description {
+  color: hsl(var(--card-foreground));
+}
+</style>

@@ -233,7 +233,7 @@ watch(() => props.formatNumber, () => {
         <Tooltip>
           <TooltipTrigger>
             <Button variant="outline" size="icon" @click="inputPaste">
-              <ClipboardPaste class="w-4 h-4" />
+              <ClipboardPaste class="app-icon w-4 h-4" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -245,7 +245,7 @@ watch(() => props.formatNumber, () => {
         <Tooltip>
           <TooltipTrigger>
             <Button variant="outline" size="icon" @click="inputCopy">
-              <Copy class="w-4 h-4" />
+              <Copy class="app-icon w-4 h-4" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -256,7 +256,7 @@ watch(() => props.formatNumber, () => {
     </div>
   </div>
   <AppComponentGap size="small" />
-  <Input v-model="input" type="text" :default-value="input" class="w-full" @blur="convertValues"
+  <Input v-model="input" type="text" :default-value="input" class="app-input w-full" @blur="convertValues"
          @change="convertValues" />
   <AppComponentGap size="small" />
   <AppConfiguration
@@ -273,7 +273,7 @@ watch(() => props.formatNumber, () => {
         <Tooltip>
           <TooltipTrigger>
             <Button variant="outline" size="icon" @click="outputCopy">
-              <Copy class="w-4 h-4" />
+              <Copy class="app-icon w-4 h-4" />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
@@ -284,7 +284,7 @@ watch(() => props.formatNumber, () => {
     </div>
   </div>
   <AppComponentGap size="small" />
-  <Input v-model="output" type="text" :default-value="output" class="w-full" readonly />
+  <Input v-model="output" type="text" :default-value="output" class="app-input w-full" readonly />
 </template>
 
 <style scoped>

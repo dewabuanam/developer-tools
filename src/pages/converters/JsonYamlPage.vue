@@ -133,7 +133,7 @@ watch(selectedConversion, () => {
             <Tooltip>
               <TooltipTrigger>
                 <Button variant="outline" size="icon" @click="pasteFromClipboard">
-                  <ClipboardPaste class="w-4 h-4" />
+                  <ClipboardPaste class="w-4 h-4 app-icon" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
@@ -145,7 +145,7 @@ watch(selectedConversion, () => {
             <Tooltip>
               <TooltipTrigger>
                 <Button variant="outline" size="icon" @click="openFile">
-                  <FolderOpen class="w-4 h-4" />
+                  <FolderOpen class="w-4 h-4 app-icon" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
@@ -157,7 +157,7 @@ watch(selectedConversion, () => {
             <Tooltip>
               <TooltipTrigger>
                 <Button variant="outline" size="icon" @click="clearInput">
-                  <X class="w-4 h-4" />
+                  <X class="w-4 h-4 app-icon" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
@@ -179,7 +179,7 @@ watch(selectedConversion, () => {
             <Tooltip>
               <TooltipTrigger>
                 <Button variant="outline" size="icon" @click="copyToClipboard">
-                  <Copy class="w-4 h-4" />
+                  <Copy class="w-4 h-4 app-icon" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>

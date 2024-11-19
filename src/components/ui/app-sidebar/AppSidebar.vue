@@ -17,8 +17,9 @@ import type { PropType } from 'vue'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import logo from '@/assets/logo.png'
-import { Label } from '@/components/ui/label'
+import { Label } from 'radix-vue'
 import { version } from '@/../package.json'
+import { cn } from '@/lib/utils'
 
 const props = defineProps({
   menuItems: {
@@ -38,8 +39,14 @@ const navigateTo = (url: string) => {
   <Sidebar>
     <ScrollArea class="h-[100svh] rounded-md">
       <SidebarHeader class="flex flex-col ">
-        <Label class="logo-text ">Developer Tools</Label>
-        <Label class="description-text">v{{ version }}</Label>
+
+        <Label
+          class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 logo-text ">
+          Developer Tools</Label>
+
+        <Label
+          class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 description-text ">
+          v{{ version }}</Label>
         <Avatar size="xxl" class="avatar-margin-top justify-center bg-transparent" shape="square">
           <AvatarImage :src="logo" alt="@radix-vue" class="object-center" />
         </Avatar>
@@ -54,7 +61,7 @@ const navigateTo = (url: string) => {
                     <SidebarMenuButton>
                       <div class="flex items-center space-x-2 cursor-pointer">
                         <component :is="item.icon" class="w-5 h-5" />
-                        <span class="title-text">{{ item.title }}</span>
+                        <span class="title-text font-medium">{{ item.title }}</span>
                       </div>
                       <ChevronDown
                         class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
@@ -62,10 +69,10 @@ const navigateTo = (url: string) => {
                   </CollapsibleTrigger>
                 </template>
                 <template v-else>
-                  <SidebarMenuButton>
-                    <div @click="navigateTo(item.url)" class="flex items-center space-x-2 cursor-pointer">
+                  <SidebarMenuButton @click="navigateTo(item.url)">
+                    <div class="flex items-center space-x-2 cursor-pointer">
                       <component :is="item.icon" class="w-5 h-5" />
-                      <span class="title-text">{{ item.title }}</span>
+                      <span class="title-text font-medium">{{ item.title }}</span>
                     </div>
                   </SidebarMenuButton>
                 </template>
@@ -76,7 +83,7 @@ const navigateTo = (url: string) => {
                         <SidebarMenuButton asChild>
                           <div @click="navigateTo(child.url)" class="cursor-pointer">
                             <component :is="child.icon" />
-                            <span>{{ child.title }}</span>
+                            <span class="font-medium">{{ child.title }}</span>
                           </div>
                         </SidebarMenuButton>
                       </SidebarMenuSubItem>
@@ -96,12 +103,15 @@ const navigateTo = (url: string) => {
 .title-text {
   font-size: 0.9rem; /* Adjust the size as needed */
 }
+
 .logo-text {
   font-size: 1.1rem; /* Adjust the size as needed */
 }
+
 .description-text {
   font-size: 0.9rem; /* Adjust the size as needed */
 }
+
 .avatar-margin-top {
   margin-top: -30px; /* Adjust the margin as needed */
 }

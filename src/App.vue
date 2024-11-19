@@ -9,10 +9,11 @@ import { AppComponentGap } from '@/components/ui/app-component-gap'
 import { ChevronRight, Sun, Moon } from 'lucide-vue-next'
 import { ref, watch } from 'vue'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import Cookies from 'js-cookie'
 
 const route = useRoute()
 
-const isDark = ref(true)
+const isDark = ref(Cookies.get('isDark') === 'true')
 
 const kebabToPascal = (str: string) => {
   return str
@@ -31,6 +32,7 @@ watch(isDark, (newVal) => {
   } else {
     document.body.classList.remove('dark')
   }
+  Cookies.set('isDark', newVal.toString())
 }, { immediate: true })
 
 </script>
@@ -41,15 +43,15 @@ watch(isDark, (newVal) => {
     <main class="content">
       <div class="router-page">
         <div class="menu">
-          <SidebarTrigger class="w-fit h-full" />
-          <ChevronRight class="w-4" />
+          <SidebarTrigger class="w-fit h-full app-icon" />
+          <ChevronRight class="w-4 app-icon" />
           <Label for="title" class="title-label">
             {{ typeof route.name === 'string' ? kebabToPascal(route.name) : '' }}
           </Label>
           <Switch :checked="isDark" @update:checked="toggleTheme" class="ml-auto h-full">
             <template #thumb>
-              <Moon v-if="isDark" class="h-full w-full justify-center p-0.5" />
-              <Sun v-else class="h-full w-full justify-center p-0.5" />
+              <Moon v-if="isDark" class="app-icon h-full w-full justify-center p-0.5" />
+              <Sun v-else class="app-icon h-full w-full justify-center p-0.5" />
             </template>
           </Switch>
         </div>

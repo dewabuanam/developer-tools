@@ -215,7 +215,7 @@ function validateAndSetAlert(newValue: string, base: number) {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <Button variant="outline" size="icon" @click="hexadecimalPaste">
+            <Button variant="outline" size="icon" @click="hexadecimalPaste" class="app-button">
               <ClipboardPaste class="w-4 h-4" />
             </Button>
           </TooltipTrigger>
@@ -227,7 +227,7 @@ function validateAndSetAlert(newValue: string, base: number) {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <Button variant="outline" size="icon" @click="hexadecimalCopy">
+            <Button variant="outline" size="icon" @click="hexadecimalCopy" class="app-button">
               <Copy class="w-4 h-4" />
             </Button>
           </TooltipTrigger>
@@ -239,7 +239,7 @@ function validateAndSetAlert(newValue: string, base: number) {
     </div>
   </div>
   <AppComponentGap size="small" />
-  <Input v-model="hexadecimal" id="hexadecimal" type="text" :default-value="hexadecimal" class="w-full"
+  <Input v-model="hexadecimal" id="hexadecimal" type="text" :default-value="hexadecimal" class="app-input w-full"
          @blur="handleChange" @change="handleChange" />
   <AppComponentGap />
 
@@ -249,7 +249,7 @@ function validateAndSetAlert(newValue: string, base: number) {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <Button variant="outline" size="icon" @click="decimalPaste">
+            <Button variant="outline" size="icon" @click="decimalPaste" class="app-button">
               <ClipboardPaste class="w-4 h-4" />
             </Button>
           </TooltipTrigger>
@@ -261,7 +261,7 @@ function validateAndSetAlert(newValue: string, base: number) {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <Button variant="outline" size="icon" @click="decimalCopy">
+            <Button variant="outline" size="icon" @click="decimalCopy" class="app-button">
               <Copy class="w-4 h-4" />
             </Button>
           </TooltipTrigger>
@@ -273,7 +273,7 @@ function validateAndSetAlert(newValue: string, base: number) {
     </div>
   </div>
   <AppComponentGap size="small" />
-  <Input v-model="decimal" id="decimal" type="text" :default-value="decimal" class="w-full" @blur="handleChange"
+  <Input v-model="decimal" id="decimal" type="text" :default-value="decimal" class="app-input w-full" @blur="handleChange"
          @change="handleChange" />
 
   <AppComponentGap />
@@ -284,7 +284,7 @@ function validateAndSetAlert(newValue: string, base: number) {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <Button variant="outline" size="icon" @click="octalPaste">
+            <Button variant="outline" size="icon" @click="octalPaste" class="app-button">
               <ClipboardPaste class="w-4 h-4" />
             </Button>
           </TooltipTrigger>
@@ -296,7 +296,7 @@ function validateAndSetAlert(newValue: string, base: number) {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <Button variant="outline" size="icon" @click="octalCopy">
+            <Button variant="outline" size="icon" @click="octalCopy" class="app-button">
               <Copy class="w-4 h-4" />
             </Button>
           </TooltipTrigger>
@@ -308,7 +308,7 @@ function validateAndSetAlert(newValue: string, base: number) {
     </div>
   </div>
   <AppComponentGap size="small" />
-  <Input v-model="octal" id="octal" type="text" :default-value="octal" class="w-full" @blur="handleChange"
+  <Input v-model="octal" id="octal" type="text" :default-value="octal" class="app-input w-full" @blur="handleChange"
          @change="handleChange" />
 
   <AppComponentGap />
@@ -319,7 +319,7 @@ function validateAndSetAlert(newValue: string, base: number) {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <Button variant="outline" size="icon" @click="binaryPaste">
+            <Button variant="outline" size="icon" @click="binaryPaste" class="app-button">
               <ClipboardPaste class="w-4 h-4" />
             </Button>
           </TooltipTrigger>
@@ -331,7 +331,7 @@ function validateAndSetAlert(newValue: string, base: number) {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <Button variant="outline" size="icon" @click="binaryCopy">
+            <Button variant="outline" size="icon" @click="binaryCopy" class="app-button">
               <Copy class="w-4 h-4" />
             </Button>
           </TooltipTrigger>
@@ -343,7 +343,7 @@ function validateAndSetAlert(newValue: string, base: number) {
     </div>
   </div>
   <AppComponentGap size="small" />
-  <Input v-model="binary" id="binary" type="text" :default-value="binary" class="w-full" @blur="handleChange"
+  <Input v-model="binary" id="binary" type="text" :default-value="binary" class="app-input w-full" @blur="handleChange"
          @change="handleChange" />
 
   <AppComponentGap />
