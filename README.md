@@ -1,6 +1,6 @@
-# Developer Tools
-![GitHub last commit](https://img.shields.io/github/last-commit/dewabuanam/developer-tools.svg?style=popout-square)
-![GitHub](https://img.shields.io/github/license/dewabuanam/developer-tools.svg?style=popout-square)
+# Developer Tools by FoxSensei
+![GitHub last commit](https://img.shields.io/github/last-commit/dewabuanam/developer-tools-by-fox-sensei.svg?style=popout-square)
+![GitHub](https://img.shields.io/github/license/dewabuanam/developer-tools-by-fox-sensei.svg?style=popout-square)
 [![language: JavaScript](https://img.shields.io/badge/language-JavaScript-yellow.svg?style=flat-square)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![framework: Vue 3](https://img.shields.io/badge/framework-Vue_3-brightgreen.svg?style=flat-square)](https://vuejs.org/)
 [![framework: Vite](https://img.shields.io/badge/framework-Vite-646CFF.svg?style=flat-square)](https://vitejs.dev/)
@@ -46,11 +46,11 @@ Developer Tools is a comprehensive toolkit designed to streamline your developme
 # Installation
 1. **Clone the repository**  
    ```bash
-   git clone https://github.com/dewabuanam/developer-tools.git
+   git clone https://github.com/dewabuanam/developer-tools-by-fox-sensei.git
    ```
 2. **Navigate to the directory**  
    ```bash
-   git clone https://github.com/dewabuanam/developer-tools.git
+   git clone https://github.com/dewabuanam/developer-tools-by-fox-sensei.git
    ```
 3. **Install dependencies using npm or yarn:**  
    ```bash
@@ -73,4 +73,4 @@ Developer Tools is a comprehensive toolkit designed to streamline your developme
 This toolkit is designed for developers working on complex tasks such as debugging, encoding, and data transformation. 
 
 # License
-![GitHub](https://img.shields.io/github/license/dewabuanam/developer-tools.svg?style=popout-square)
+![GitHub](https://img.shields.io/github/license/dewabuanam/developer-tools-by-fox-sensei.svg?style=popout-square)

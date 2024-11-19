@@ -1,15 +1,15 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue'
+import Cookies from 'js-cookie'
+import { useRoute } from 'vue-router'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/ui/app-sidebar'
-import { useRoute } from 'vue-router'
 import { menuItems } from '@/constants/MenuItems'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
 import { ChevronRight, Sun, Moon } from 'lucide-vue-next'
-import { ref, watch } from 'vue'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import Cookies from 'js-cookie'
 
 const route = useRoute()
 
@@ -27,13 +27,18 @@ function toggleTheme() {
 }
 
 watch(isDark, (newVal) => {
-  if (newVal) {
-    document.body.classList.add('dark')
-  } else {
-    document.body.classList.remove('dark')
+  const themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+  if (themeColorMetaTag) {
+    if (newVal) {
+      document.body.classList.add('dark');
+      themeColorMetaTag.setAttribute('content', '#000000');
+    } else {
+      document.body.classList.remove('dark');
+      themeColorMetaTag.setAttribute('content', '#8f3403');
+    }
+    Cookies.set('isDark', newVal.toString());
   }
-  Cookies.set('isDark', newVal.toString())
-}, { immediate: true })
+}, { immediate: true });
 
 </script>
 
