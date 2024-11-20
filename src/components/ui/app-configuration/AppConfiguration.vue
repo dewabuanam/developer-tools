@@ -53,7 +53,6 @@ const emit = defineEmits(['update:modelValue', 'blur'])
 
 const selectedOption = ref(props.modelValue)
 const open = ref(false)
-const value = ref(props.modelValue)
 
 watch(selectedOption, (newValue) => {
   emit('update:modelValue', newValue)
@@ -114,8 +113,8 @@ function handleBlur() {
               :aria-expanded="open"
               class="w-[22svh] justify-between"
             >
-              {{ value
-              ? (props.listOptions ?? []).find((option) => option.value === value)?.key
+              {{ selectedOption
+              ? (props.listOptions ?? []).find((option) => option.value === selectedOption)?.key
               : 'Select option...' }}
               <ChevronsUpDown class="h-4 w-4 shrink-0 opacity-50" />
             </Button>
@@ -132,14 +131,14 @@ function handleBlur() {
                     :value="option.value"
                     @select="(ev) => {
                       if (typeof ev.detail.value === 'string') {
-                        value = ev.detail.value
+                        selectedOption = ev.detail.value
                       }
                       open = false
                     }"
                   >
                     {{ option.key }}
                     <Check
-                      :class="['ml-auto h-4 w-4', value === option.value ? 'opacity-100' : 'opacity-0']"
+                      :class="['ml-auto h-4 w-4', selectedOption === option.value ? 'opacity-100' : 'opacity-0']"
                     />
                   </CommandItem>
                 </CommandGroup>
