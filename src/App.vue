@@ -10,6 +10,9 @@ import { Switch } from '@/components/ui/switch'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
 import { ChevronRight, Sun, Moon } from 'lucide-vue-next'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Avatar, AvatarImage } from '@/components/ui/avatar'
+import logo from '@/assets/logo.png'
+import { Card } from '@/components/ui/card'
 
 const route = useRoute()
 
@@ -27,18 +30,18 @@ function toggleTheme() {
 }
 
 watch(isDark, (newVal) => {
-  const themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
+  const themeColorMetaTag = document.querySelector('meta[name="theme-color"]')
   if (themeColorMetaTag) {
     if (newVal) {
-      document.body.classList.add('dark');
-      themeColorMetaTag.setAttribute('content', '#000000');
+      document.body.classList.add('dark')
+      themeColorMetaTag.setAttribute('content', '#000000')
     } else {
-      document.body.classList.remove('dark');
-      themeColorMetaTag.setAttribute('content', '#8f3403');
+      document.body.classList.remove('dark')
+      themeColorMetaTag.setAttribute('content', '#8f3403')
     }
-    Cookies.set('isDark', newVal.toString());
+    Cookies.set('isDark', newVal.toString())
   }
-}, { immediate: true });
+}, { immediate: true })
 
 </script>
 
@@ -47,21 +50,27 @@ watch(isDark, (newVal) => {
     <AppSidebar :menuItems="menuItems" />
     <main class="content">
       <div class="router-page">
-        <div class="menu">
-          <SidebarTrigger class="w-fit h-full" />
-          <ChevronRight class="w-4" />
-          <Label for="title" class="title-label">
-            {{ typeof route.name === 'string' ? kebabToPascal(route.name) : '' }}
-          </Label>
-          <Switch :checked="isDark" @update:checked="toggleTheme" class="ml-auto h-full data-[state=unchecked]:bg-[hsl(var(--button-component-primary))]">
-            <template #thumb>
-              <Moon v-if="isDark" class="app-icon h-full w-full justify-center p-0.5" />
-              <Sun v-else class="app-icon h-full w-full justify-center p-0.5" />
-            </template>
-          </Switch>
-        </div>
-        <AppComponentGap size="large" />
-        <ScrollArea class="h-[91.1svh]">
+        <Card @click="$router.push('/')" :class="['cursor-pointer shadow-lg backdrop-blur ring-0.5 ring-black', { 'app-menu': !isDark }]">
+          <div class="menu p-2 rounded-md">
+            <SidebarTrigger class="w-fit h-full" />
+            <ChevronRight class="w-4" />
+            <Avatar size="base" class="avatar-margin-top justify-center bg-transparent" shape="square">
+              <AvatarImage :src="logo" alt="@radix-vue" class="object-center" />
+            </Avatar>
+            <Label for="title" class="title-label">
+              {{ typeof route.name === 'string' ? kebabToPascal(route.name) : '' }}
+            </Label>
+            <Switch :checked="isDark" @update:checked="toggleTheme"
+                    class="ml-auto h-full ">
+              <template #thumb>
+                <Moon v-if="isDark" class="app-icon h-full w-full justify-center p-0.5" />
+                <Sun v-else class="app-icon h-full w-full justify-center p-0.5" />
+              </template>
+            </Switch>
+          </div>
+        </Card>
+        <ScrollArea class="h-[87.3svh]">
+          <AppComponentGap size="large" />
           <router-view />
         </ScrollArea>
       </div>
@@ -92,5 +101,10 @@ watch(isDark, (newVal) => {
 
 .ml-auto {
   margin-left: auto;
+}
+
+.avatar-cut {
+  clip-path: inset(0 0 25% 0);
+  align-self: flex-end;
 }
 </style>

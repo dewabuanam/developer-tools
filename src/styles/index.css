@@ -95,6 +95,11 @@
         color: hsl(var(--card-component-primary)) !important;
         background: hsl(var(--card-component)) !important;
     }
+
+    .app-menu{
+        background: hsl(var(--card-component-primary)) !important;
+        color: hsl(var(--card-component)) !important;
+    }
     
     .app-card:hover .app-card-description,
     .app-card:hover{
