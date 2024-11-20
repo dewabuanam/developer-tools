@@ -22,7 +22,7 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip'
 import { useToast } from '@/components/ui/toast/use-toast'
-import {AppToaster} from "@/components/ui/app-toaster";
+import { AppToaster } from '@/components/ui/app-toaster'
 
 // Get the machine's time zone, fallback to UTC if it fails
 let machineTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -46,10 +46,39 @@ const day = ref(currentDateTime.getDate())
 const hours = ref(currentDateTime.getHours())
 const minutes = ref(currentDateTime.getMinutes())
 const seconds = ref(currentDateTime.getSeconds())
+const ms = ref(currentDateTime.getSeconds())
 const { toast } = useToast()
 
+watch(selectedTimeZone, (newTimeZoneValue) => {
+  const newMatchingTimeZone = timeZones.find(zone => zone.value === newTimeZoneValue)
+  if (newMatchingTimeZone && timeInfo.value) {
+    const oldOffset = timeInfo.value.offset
+    const newOffset = newMatchingTimeZone.offset
+    const offsetDifference = newOffset - oldOffset
+
+// Parse the localDateTime from timeInfo
+    const localDateTime = new Date(timeInfo.value.localDateTime)
+
+// Adjust the date by the offset difference
+    const adjustedDate = new Date(localDateTime.getTime() + offsetDifference * 60 * 60 * 1000)
+
+    if (!isNaN(adjustedDate.getTime())) {
+      year.value = adjustedDate.getFullYear()
+      month.value = adjustedDate.getMonth() + 1
+      day.value = adjustedDate.getDate()
+      hours.value = adjustedDate.getHours()
+      minutes.value = adjustedDate.getMinutes()
+      seconds.value = adjustedDate.getSeconds()
+      ms.value = adjustedDate.getMilliseconds()
+      updateTimeInfo(adjustedDate)
+    }
+  }
+})
+
 watch(timestamp, (newTimestamp) => {
+  console.log(newTimestamp)
   const newDate = new Date(newTimestamp)
+  console.log(newDate)
   if (!isNaN(newDate.getTime())) {
     year.value = newDate.getFullYear()
     month.value = newDate.getMonth() + 1
@@ -57,21 +86,25 @@ watch(timestamp, (newTimestamp) => {
     hours.value = newDate.getHours()
     minutes.value = newDate.getMinutes()
     seconds.value = newDate.getSeconds()
+    ms.value = newDate.getMilliseconds()
     updateTimeInfo(newDate)
   }
 })
 
 function updateTimeInfo(date: Date) {
-  timeInfo.value = {
-    offset: date.getTimezoneOffset() / -60,
-    localDateTime: date.toLocaleString(),
-    utcTicks: date.getTime(),
-    utcDateTime: date.toISOString()
+  const newMatchingTimeZone = timeZones.find(zone => zone.value === selectedTimeZone.value)
+  if (newMatchingTimeZone) {
+    timeInfo.value = {
+      offset: newMatchingTimeZone.offset,
+      localDateTime: date.toLocaleString(),
+      utcTicks: date.getTime(),
+      utcDateTime: date.toISOString()
+    }
   }
 }
 
 function handleBlur() {
-  const newDate = new Date(year.value, month.value - 1, day.value, hours.value, minutes.value, seconds.value)
+  const newDate = new Date(year.value, month.value - 1, day.value, hours.value, minutes.value, seconds.value, ms.value)
   if (!isNaN(newDate.getTime())) {
     timestamp.value = newDate.getTime()
     updateTimeInfo(newDate)
@@ -84,7 +117,7 @@ async function pasteFromClipboard() {
     timestamp.value = parseInt(text, 10)
     toast({
       title: 'Pasted from Clipboard',
-      description: 'Timestamp has been updated from clipboard contents.',
+      description: 'Timestamp has been updated from clipboard contents.'
     })
   } catch (error) {
     console.error('Failed to read clipboard contents: ', error)
@@ -96,7 +129,7 @@ async function copyToClipboard() {
     await navigator.clipboard.writeText(timestamp.value.toString())
     toast({
       title: 'Copied to Clipboard',
-      description: 'Timestamp has been copied to clipboard.',
+      description: 'Timestamp has been copied to clipboard.'
     })
   } catch (error) {
     console.error('Failed to copy to clipboard: ', error)
@@ -112,10 +145,11 @@ function setCurrentDateTime() {
   hours.value = currentDateTime.getHours()
   minutes.value = currentDateTime.getMinutes()
   seconds.value = currentDateTime.getSeconds()
+  ms.value = currentDateTime.getMilliseconds()
   updateTimeInfo(currentDateTime)
   toast({
     title: 'Set Current Date and Time',
-    description: `Current date and time set to ${currentDateTime.toLocaleString()}`,
+    description: `Current date and time set to ${currentDateTime.toLocaleString()}`
   })
 }
 
@@ -223,39 +257,45 @@ const formattedTimeZones = computed(() => {
     </div>
   </div>
   <AppComponentGap size="small" />
-  <Input v-model="timestamp" id="timestamp" type="number" :default-value="timestamp" class="w-full" @blur="handleBlur" @change="handleBlur" />
+  <Input v-model="timestamp" id="timestamp" type="number" :default-value="timestamp" class="w-full" />
 
   <AppComponentGap />
 
   <div class="grid grid-cols-6 gap-4">
     <div>
       <Label for="year">Year</Label>
-      <Input v-model="year" id="year" type="number" :default-value="year" min="0" class="w-full" @blur="handleBlur" @change="handleBlur" />
+      <Input v-model="year" id="year" type="number" :default-value="year" min="0" class="w-full" @blur="handleBlur"
+             @change="handleBlur" />
     </div>
 
     <div>
       <Label for="month">Month</Label>
-      <Input v-model="month" id="month" type="number" :default-value="month" min="1" max="12" class="w-full" @blur="handleBlur" @change="handleBlur" />
+      <Input v-model="month" id="month" type="number" :default-value="month" min="1" max="12" class="w-full"
+             @blur="handleBlur" @change="handleBlur" />
     </div>
 
     <div>
       <Label for="day">Day</Label>
-      <Input v-model="day" id="day" type="number" :default-value="day" min="1" max="31" class="w-full" @blur="handleBlur" @change="handleBlur" />
+      <Input v-model="day" id="day" type="number" :default-value="day" min="1" max="31" class="w-full"
+             @blur="handleBlur" @change="handleBlur" />
     </div>
 
     <div>
       <Label for="hours">Hours</Label>
-      <Input v-model="hours" id="hours" type="number" :default-value="hours" min="0" max="23" class="w-full" @blur="handleBlur" @change="handleBlur" />
+      <Input v-model="hours" id="hours" type="number" :default-value="hours" min="0" max="23" class="w-full"
+             @blur="handleBlur" @change="handleBlur" />
     </div>
 
     <div>
       <Label for="minutes">Minutes</Label>
-      <Input v-model="minutes" id="minutes" type="number" :default-value="minutes" min="0" max="59" class="w-full" @blur="handleBlur" @change="handleBlur" />
+      <Input v-model="minutes" id="minutes" type="number" :default-value="minutes" min="0" max="59" class="w-full"
+             @blur="handleBlur" @change="handleBlur" />
     </div>
 
     <div>
       <Label for="seconds">Seconds</Label>
-      <Input v-model="seconds" id="seconds" type="number" :default-value="seconds" min="0" max="59" class="w-full" @blur="handleBlur" @change="handleBlur" />
+      <Input v-model="seconds" id="seconds" type="number" :default-value="seconds" min="0" max="59" class="w-full"
+             @blur="handleBlur" @change="handleBlur" />
     </div>
   </div>
 </template>
