@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 import { useRoute } from 'vue-router'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/ui/app-sidebar'
-import { menuItems } from '@/constants/MenuItems'
+import { routeItems } from '@/constants/RouteItems'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
@@ -47,7 +47,7 @@ watch(isDark, (newVal) => {
 
 <template>
   <SidebarProvider>
-    <AppSidebar :menuItems="menuItems" />
+    <AppSidebar :menuItems="routeItems" />
     <main class="content">
       <div class="router-page">
         <Card @click="$router.push('/')" :class="['cursor-pointer shadow-lg backdrop-blur ring-0.5 ring-black', { 'app-menu': !isDark }]">

@@ -6,8 +6,8 @@ import { ClipboardPaste, Copy, TriangleAlert } from 'lucide-vue-next'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
 import { Input } from '@/components/ui/input'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { ref, watch, defineProps, defineEmits } from 'vue'
-import { Toaster, useToast } from '@/components/ui/toast'
+import { ref, watch } from 'vue'
+import { useToast } from '@/components/ui/toast'
 import {AppToaster} from "@/components/ui/app-toaster";
 const { toast } = useToast()
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { menuItems } from '@/constants/MenuItems';
+import { routeItems } from '@/constants/RouteItems';
 import AppTool from '@/components/ui/app-tool/AppTool.vue';
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-const graphicToolsMenu = menuItems.find(item => item.url === '/graphic-tools');
+const graphicToolsMenu = routeItems.find(item => item.url === '/graphic-tools');
 const childItems = graphicToolsMenu ? graphicToolsMenu.children : [];
 
 const updateGridColumns = () => {

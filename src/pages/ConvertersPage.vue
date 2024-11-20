@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { menuItems } from '@/constants/MenuItems'
+import { routeItems } from '@/constants/RouteItems'
 import AppTool from '@/components/ui/app-tool/AppTool.vue'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-const convertersMenu = menuItems.find(item => item.url === '/converters')
+const convertersMenu = routeItems.find(item => item.url === '/converters')
 const childItems = convertersMenu ? convertersMenu.children : []
 const updateGridColumns = () => {
   const svh = window.innerWidth / 200

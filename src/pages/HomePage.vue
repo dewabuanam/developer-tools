@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { menuItems } from '@/constants/MenuItems'
+import { routeItems } from '@/constants/RouteItems'
 import AppTool from '@/components/ui/app-tool/AppTool.vue'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-const childItems = menuItems.flatMap(item => item.children || [])
+const childItems = routeItems.flatMap(item => item.children || [])
 
 const updateGridColumns = () => {
   const svh = window.innerWidth / 200;
