@@ -3,7 +3,7 @@ import { Label } from '@/components/ui/label'
 import { AppConfiguration } from '@/components/ui/app-configuration'
 import { AppJsonEditor } from '@/components/ui/app-json-editor'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
-import { ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import yaml from 'js-yaml'
 import { ClipboardPaste, X, FolderOpen, Copy, FileJson2, TextQuote } from 'lucide-vue-next'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
@@ -41,7 +41,7 @@ const convert = () => {
       const yamlObject = yaml.load(inputText.value)
       outputText.value = JSON.stringify(yamlObject, null, parseInt(selectedIndentation.value))
     }
-  } catch (error: any) {
+  } catch (error: never) {
     outputText.value = `Error: ${error.message}`
   }
 }
@@ -103,6 +103,23 @@ watch(selectedConversion, () => {
   }
   convert()
 })
+
+const isMobile = ref(window.innerWidth <= 768)
+
+const updateIsMobile = () => {
+  isMobile.value = window.innerWidth <= 768
+}
+onMounted(() => {
+  updateIsMobile()
+  window.addEventListener('resize', updateIsMobile)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateIsMobile)
+})
+const panelGroupDir = computed(() => (isMobile.value ? 'vertical' : 'horizontal'))
+
+const panelGroupClass = computed(() => (isMobile.value ? '!h-[125svh]' : '!h-[60svh]'))
 </script>
 
 <template>
@@ -126,7 +143,7 @@ watch(selectedConversion, () => {
     v-model="selectedIndentation"
   />
   <AppComponentGap size="large" />
-  <ResizablePanelGroup direction="horizontal" class="max-h-[1000px]">
+  <ResizablePanelGroup :direction="panelGroupDir" :class="panelGroupClass">
     <ResizablePanel>
       <div class="input-header">
         <Label for="input">Input</Label>
@@ -172,7 +189,7 @@ watch(selectedConversion, () => {
       <AppComponentGap size="small" />
       <AppJsonEditor v-model="inputText" />
     </ResizablePanel>
-    <ResizableHandle with-handle class="resizeable-handle" />
+    <ResizableHandle v-if="!isMobile" with-handle class="resizeable-handle" />
     <ResizablePanel>
       <div class="input-header">
         <Label for="output">Output</Label>
@@ -198,17 +215,6 @@ watch(selectedConversion, () => {
 </template>
 
 <style scoped>
-.input-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.button-group {
-  display: flex;
-  gap: 8px; /* Adjust the gap between buttons as needed */
-}
-
 .resizeable-handle {
   padding: 5px;
   background: transparent;

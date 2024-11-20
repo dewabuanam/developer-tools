@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { defineProps } from 'vue';
 import { AppComponentGap } from '@/components/ui/app-component-gap'
 
 const props = defineProps({

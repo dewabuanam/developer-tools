@@ -7,9 +7,8 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { Slash } from 'lucide-vue-next'
-import { defineProps } from 'vue'
 
-const props = defineProps<{
+defineProps<{
   links: { key: string; value: string; display: string }[]
 }>()
 </script>

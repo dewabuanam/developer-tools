@@ -117,15 +117,17 @@
         color: hsl(var(--button-component)) !important;
     }
 
+    .input-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
     .button-group {
         display: flex;
         gap: 8px; /* Adjust the gap between buttons as needed */
     }
-    .input-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end; /* Align items at the bottom */
-    }
+
 }
 
 @layer base {

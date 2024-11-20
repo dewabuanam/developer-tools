@@ -16,7 +16,7 @@ import { Card } from '@/components/ui/card'
 
 const route = useRoute()
 
-const isDark = ref(Cookies.get('isDark') === 'true')
+const isDark = ref(Cookies.get('theme_isDark') === 'true')
 
 const kebabToPascal = (str: string) => {
   return str
@@ -39,7 +39,7 @@ watch(isDark, (newVal) => {
       document.body.classList.remove('dark')
       themeColorMetaTag.setAttribute('content', '#8f3403')
     }
-    Cookies.set('isDark', newVal.toString())
+    Cookies.set('theme_isDark', newVal.toString())
   }
 }, { immediate: true })
 
@@ -50,11 +50,11 @@ watch(isDark, (newVal) => {
     <AppSidebar :menuItems="routeItems" />
     <main class="content">
       <div class="router-page">
-        <Card @click="$router.push('/')" :class="['cursor-pointer shadow-lg backdrop-blur ring-0.5 ring-black', { 'app-menu': !isDark }]">
+        <Card :class="['cursor-pointer shadow-lg backdrop-blur ring-0.5 ring-black', { 'app-menu': !isDark }]">
           <div class="menu p-2 rounded-md">
             <SidebarTrigger class="w-fit h-full" />
             <ChevronRight class="w-4" />
-            <Avatar size="base" class="avatar-margin-top justify-center bg-transparent" shape="square">
+            <Avatar @click="$router.push('/')"  size="base" class="avatar-margin-top justify-center bg-transparent" shape="square">
               <AvatarImage :src="logo" alt="@radix-vue" class="object-center" />
             </Avatar>
             <Label for="title" class="title-label">
