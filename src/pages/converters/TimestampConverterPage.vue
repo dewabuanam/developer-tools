@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/tooltip'
 import { useToast } from '@/components/ui/toast/use-toast'
 import { AppToaster } from '@/components/ui/app-toaster'
+import { AppDropdown } from '@/components/ui/app-dropdown'
 
 // Get the machine's time zone, fallback to UTC if it fails
 let machineTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -161,6 +162,7 @@ const formattedTimeZones = computed(() => {
     const minutes = ((Math.abs(zone.offset) % 1) * 60).toString().padStart(2, '0')
     return {
       ...zone,
+      key:zone.text,
       formattedOffset: `${sign}${hours}:${minutes}`
     }
   })
@@ -174,16 +176,14 @@ const formattedTimeZones = computed(() => {
 
   <AppComponentGap size="small" />
 
-  <Select v-model="selectedTimeZone" class="w-full">
-    <SelectTrigger class="w-full">
-      <SelectValue placeholder="Select a timezone" />
-    </SelectTrigger>
-    <SelectContent>
-      <SelectItem v-for="zone in formattedTimeZones" :key="zone.value" :value="zone.value">
-        {{ zone.text }}
-      </SelectItem>
-    </SelectContent>
-  </Select>
+  <AppDropdown
+    :selectedOption="selectedTimeZone"
+    :listOptions="formattedTimeZones"
+    button-class="w-full justify-start"
+    popover-content-class="w-full"
+    @update:selectedOption="(value: string) => selectedTimeZone = value"
+    class="w-full"
+  />
 
   <AppComponentGap />
 

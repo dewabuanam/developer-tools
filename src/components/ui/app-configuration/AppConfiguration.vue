@@ -2,11 +2,8 @@
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ref, watch } from 'vue'
 import { Switch } from '@/components/ui/switch'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
-import { ChevronsUpDown, Check } from 'lucide-vue-next'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { AppDropdown } from '@/components/ui/app-dropdown'
 
 const props = defineProps({
   title: {
@@ -54,7 +51,7 @@ const emit = defineEmits(['update:modelValue', 'blur'])
 const selectedOption = ref(props.modelValue)
 const open = ref(false)
 
-watch(selectedOption, (newValue) => {
+watch(selectedOption, (newValue: string) => {
   emit('update:modelValue', newValue)
 })
 
@@ -105,47 +102,14 @@ function handleBlur() {
             @update:checked="handleChange"
           />
         </div>
-        <Popover v-else-if="type === 'dropdown'" v-model:open="open">
-          <PopoverTrigger as-child>
-            <Button
-              variant="outline"
-              role="combobox"
-              :aria-expanded="open"
-              class="w-[22svh] justify-between"
-            >
-              {{ selectedOption
-              ? (props.listOptions ?? []).find((option) => option.value === selectedOption)?.key
-              : 'Select option...' }}
-              <ChevronsUpDown class="h-4 w-4 shrink-0 opacity-50" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent class="w-[200px] p-0">
-            <Command>
-              <CommandInput class="h-9" placeholder="Search option..." />
-              <CommandEmpty>No option found.</CommandEmpty>
-              <CommandList>
-                <CommandGroup>
-                  <CommandItem
-                    v-for="option in (props.listOptions ?? [])"
-                    :key="option.value"
-                    :value="option.value"
-                    @select="(ev) => {
-                      if (typeof ev.detail.value === 'string') {
-                        selectedOption = ev.detail.value
-                      }
-                      open = false
-                    }"
-                  >
-                    {{ option.key }}
-                    <Check
-                      :class="['ml-auto h-4 w-4', selectedOption === option.value ? 'opacity-100' : 'opacity-0']"
-                    />
-                  </CommandItem>
-                </CommandGroup>
-              </CommandList>
-            </Command>
-          </PopoverContent>
-        </Popover>
+        <AppDropdown
+          v-else-if="type === 'dropdown'"
+          :selectedOption="selectedOption"
+          :listOptions="props.listOptions"
+          popover-content-class="w-[200px] p-0"
+          button-class="w-[22svh] justify-between"
+          @update:selectedOption="(value: string) => selectedOption = value"
+        />
         <Input v-else-if="type === 'inputText'" class="w-[22svh]" v-model="selectedOption" @input="handleInputChange" @blur="handleBlur" />
         <Input
           v-else-if="type === 'inputNumber'"
