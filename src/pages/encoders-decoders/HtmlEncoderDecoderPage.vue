@@ -4,29 +4,19 @@ import { AppButton } from '@/components/ui/app-button'
 import { ArrowLeftRight, ClipboardPaste, Copy, X, Maximize2, Minimize2, File } from 'lucide-vue-next'
 import { Label } from '@/components/ui/label'
 import { AppConfiguration } from '@/components/ui/app-configuration'
-import { ref, watch, onMounted, computed } from 'vue'
+import { ref, watch } from 'vue'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Textarea } from '@/components/ui/textarea'
-import { useRoute } from 'vue-router'
 
 const { toast } = useToast()
-const route = useRoute()
 
 const switchValue = ref('')
 const isFullScreen = ref(false)
 const switchText = ref('Decode')
 const input = ref('')
 const output = ref('')
-const localStorageKey = computed(() => `${String(route.name)}-input`)
 
-// Set default input value from localStorage
-onMounted(() => {
-  const savedInput = localStorage.getItem(localStorageKey.value)
-  if (savedInput) {
-    input.value = savedInput
-  }
-})
 
 watch(switchValue, () => {
   input.value = output.value
@@ -45,7 +35,6 @@ watch(input, (newValue) => {
   else{
     output.value = encodeHTML(newValue)
   }
-  localStorage.setItem(localStorageKey.value, newValue)
 })
 
 function encodeHTML(str: string): string {
