@@ -1,21 +1,32 @@
 <script setup lang="ts">
 import { useToast } from '@/components/ui/toast/use-toast'
 import { AppButton } from '@/components/ui/app-button'
-import { ArrowLeftRight, ClipboardPaste, Copy, X, Maximize2, Minimize2 } from 'lucide-vue-next'
+import { ArrowLeftRight, ClipboardPaste, Copy, X, Maximize2, Minimize2, File } from 'lucide-vue-next'
 import { Label } from '@/components/ui/label'
 import { AppConfiguration } from '@/components/ui/app-configuration'
-import { ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Textarea } from '@/components/ui/textarea'
+import { useRoute } from 'vue-router'
 
 const { toast } = useToast()
+const route = useRoute()
 
 const switchValue = ref('')
 const isFullScreen = ref(false)
 const switchText = ref('Decode')
 const input = ref('')
 const output = ref('')
+const localStorageKey = computed(() => `${String(route.name)}-input`)
+
+// Set default input value from localStorage
+onMounted(() => {
+  const savedInput = localStorage.getItem(localStorageKey.value)
+  if (savedInput) {
+    input.value = savedInput
+  }
+})
 
 watch(switchValue, () => {
   input.value = output.value
@@ -34,6 +45,7 @@ watch(input, (newValue) => {
   else{
     output.value = encodeUrl(newValue)
   }
+  localStorage.setItem(localStorageKey.value, newValue)
 })
 
 function encodeUrl(str: string): string {
@@ -73,6 +85,24 @@ function setFullScreen() {
   isFullScreen.value = !isFullScreen.value
   showToaster(isFullScreen.value ? 'Entered Full Screen' : 'Exited Full Screen', isFullScreen.value ? 'You have entered full screen mode.' : 'You have exited full screen mode.')
 }
+
+function loadFile() {
+  const fileInput = document.createElement('input')
+  fileInput.type = 'file'
+  fileInput.accept = 'text/*'
+  fileInput.onchange = (event: Event) => {
+    const file = (event.target as HTMLInputElement).files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = () => {
+        input.value = reader.result as string
+        showToaster('File Loaded', 'Input text has been updated from file contents.')
+      }
+      reader.readAsText(file)
+    }
+  }
+  fileInput.click()
+}
 </script>
 
 <template>
@@ -101,6 +131,18 @@ function setFullScreen() {
             </TooltipTrigger>
             <TooltipContent>
               <p>Paste from Clipboard</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <AppButton variant="outline" size="icon" @click="loadFile">
+                <File class="w-4 h-4" />
+              </AppButton>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Load file</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
