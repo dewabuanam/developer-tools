@@ -68,6 +68,12 @@ function pasteFromClipboard() {
 }
 
 function copyToClipboard() {
+  navigator.clipboard.writeText(input.value).then(() => {
+    showToaster('Copied to Clipboard', 'Input text has been copied to clipboard.')
+  })
+}
+
+function copyOutputToClipboard() {
   navigator.clipboard.writeText(output.value).then(() => {
     showToaster('Copied to Clipboard', 'Output text has been copied to clipboard.')
   })
@@ -194,7 +200,7 @@ function loadFile() {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
-            <AppButton variant="outline" size="icon" @click="copyToClipboard">
+            <AppButton variant="outline" size="icon" @click="copyOutputToClipboard">
               <Copy class="w-4 h-4" />
             </AppButton>
           </TooltipTrigger>
