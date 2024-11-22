@@ -6,7 +6,6 @@ import { ArrowUp10, ClipboardPaste, Copy, LetterText, Tally2 } from 'lucide-vue-
 import { AppConfiguration } from '@/components/ui/app-configuration'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
 import { Label } from '@/components/ui/label'
-import { AppToaster } from '@/components/ui/app-toaster'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -114,7 +113,6 @@ handleBlur()
 </script>
 
 <template>
-  <AppToaster />
   <Alert v-if="alertMessage" variant="destructive">
     <AlertTitle>Warning</AlertTitle>
     <AlertDescription>{{ alertMessage }}</AlertDescription>

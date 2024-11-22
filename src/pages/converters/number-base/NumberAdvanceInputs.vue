@@ -7,7 +7,6 @@ import { ref, watch } from 'vue'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Toaster, useToast } from '@/components/ui/toast'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import base32Encode from 'base32-encode'
 import base32Decode from 'base32-decode'
@@ -163,8 +162,8 @@ function arrayBufferToHex(buffer: ArrayBuffer): string {
   return hexString;
 }
 function base64ToArrayBuffer(base64: string): ArrayBuffer {
-  let binaryString = atob(base64);
-  let bytes = new Uint8Array(binaryString.length);
+  const binaryString = atob(base64);
+  const bytes = new Uint8Array(binaryString.length);
   for (let i = 0; i < binaryString.length; i++) {
     bytes[i] = binaryString.charCodeAt(i);
   }
@@ -173,8 +172,8 @@ function base64ToArrayBuffer(base64: string): ArrayBuffer {
 
 function arrayBufferToBase64(buffer: ArrayBuffer): string {
   let binary = '';
-  let bytes = new Uint8Array( buffer );
-  let len = bytes.byteLength;
+  const bytes = new Uint8Array( buffer );
+  const len = bytes.byteLength;
   for (let i = 0; i < len; i++) {
     binary += String.fromCharCode( bytes[ i ] );
   }
@@ -213,7 +212,6 @@ watch(() => props.formatNumber, () => {
 </script>
 
 <template>
-  <AppToaster />
   <Alert v-if="alertMessage" variant="destructive">
     <AlertTitle>Warning</AlertTitle>
     <AlertDescription>{{ alertMessage }}</AlertDescription>

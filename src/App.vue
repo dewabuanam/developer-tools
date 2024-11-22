@@ -13,6 +13,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import logo from '@/assets/logo.png'
 import { Card } from '@/components/ui/card'
+import { Toaster } from '@/components/ui/toast'
 
 const route = useRoute()
 
@@ -49,6 +50,7 @@ watch(isDark, (newVal) => {
   <SidebarProvider>
     <AppSidebar :menuItems="routeItems" />
     <main class="content">
+      <Toaster/>
       <div class="router-page">
         <Card :class="['cursor-pointer shadow-lg backdrop-blur ring-0.5 ring-black', { 'app-menu': !isDark }]">
           <div class="menu p-2 rounded-md">

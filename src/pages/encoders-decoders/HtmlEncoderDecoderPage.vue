@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useToast } from '@/components/ui/toast/use-toast'
 import { AppButton } from '@/components/ui/app-button'
-import { AppToaster } from '@/components/ui/app-toaster'
 import { ArrowLeftRight, ClipboardPaste, Copy, X, Maximize2, Minimize2 } from 'lucide-vue-next'
 import { Label } from '@/components/ui/label'
 import { AppConfiguration } from '@/components/ui/app-configuration'
@@ -79,7 +78,6 @@ function setFullScreen() {
 </script>
 
 <template>
-  <AppToaster />
   <div v-if="!isFullScreen">
     <Label for="email">Configuration</Label>
     <AppComponentGap size="small" />

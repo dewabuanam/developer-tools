@@ -22,10 +22,9 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip'
 import { useToast } from '@/components/ui/toast/use-toast'
-import { AppToaster } from '@/components/ui/app-toaster'
 
 // Get the machine's time zone, fallback to UTC if it fails
-let machineTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+const machineTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
 // Find the matching timezone value
 const matchingTimeZone = timeZones.find(zone => zone.utc.includes(machineTimeZone))
@@ -169,7 +168,6 @@ const formattedTimeZones = computed(() => {
 </script>
 
 <template>
-  <AppToaster />
   <Label for="time-zone" class="component-gap">Time Zone</Label>
 
   <AppComponentGap size="small" />

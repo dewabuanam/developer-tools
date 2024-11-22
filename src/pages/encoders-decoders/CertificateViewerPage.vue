@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { AppToaster } from '@/components/ui/app-toaster'
 import { ClipboardPaste, Copy, X, FileKey2, Eye, EyeOff } from 'lucide-vue-next'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
@@ -11,7 +10,10 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent } from '@/components/ui/card'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { useToast } from '@/components/ui/toast/use-toast'
+import forge from 'node-forge'
+
+const { toast } = useToast()
 
 const route = useRoute()
 
@@ -40,26 +42,23 @@ const updateIsMobile = () => {
   isMobile.value = window.innerWidth <= 768
 }
 onMounted(() => {
-  updateIsMobile()
-  window.addEventListener('resize', updateIsMobile)
-  const savedInput = localStorage.getItem(localStorageKey.value)
+  updateIsMobile();
+  window.addEventListener('resize', updateIsMobile);
+  const savedInput = localStorage.getItem(localStorageKey.value);
   if (savedInput) {
-    input.value = savedInput
+    input.value = savedInput;
   }
-})
+});
 
 onUnmounted(() => {
   window.removeEventListener('resize', updateIsMobile)
-})
-
-watch(input, (newValue) => {
-  localStorage.setItem(localStorageKey.value, newValue)
 })
 
 const handleFileInput = (event: Event) => {
   const target = event.target as HTMLInputElement
   if (target.files && target.files.length > 0) {
     file.value = target.files[0]
+    readFile(file.value)
   }
 }
 
@@ -77,11 +76,13 @@ const handleDrop = (event: DragEvent) => {
   isDragging.value = false
   if (event.dataTransfer && event.dataTransfer.files.length > 0) {
     file.value = event.dataTransfer.files[0]
+    readFile(file.value)
   }
 }
 
 const clearFile = () => {
   file.value = null
+  input.value = ''
 }
 
 const togglePasswordVisibility = () => {
@@ -107,14 +108,34 @@ const pasteFromClipboard = async () => {
   try {
     const text = await navigator.clipboard.readText()
     input.value = text
+    showToaster('Pasted from Clipboard', 'Input text has been updated from clipboard contents.')
+  } catch (err) {
+    console.error('Failed to read clipboard contents: ', err)
+  }
+}
+const pasteToPasswordFromClipboard = async () => {
+  try {
+    const text = await navigator.clipboard.readText()
+    password.value = text
+    showToaster('Pasted from Clipboard', 'Input text has been updated from clipboard contents.')
   } catch (err) {
     console.error('Failed to read clipboard contents: ', err)
   }
 }
 
-const copyToClipboard = async () => {
+const copyFromOutputToClipboard = async () => {
   try {
     await navigator.clipboard.writeText(output.value)
+    showToaster('Copied to Clipboard', 'Output text has been copied to clipboard.')
+  } catch (err) {
+    console.error('Failed to write to clipboard: ', err)
+  }
+}
+
+const copyToClipboard = async () => {
+  try {
+    await navigator.clipboard.writeText(input.value)
+    showToaster('Copied to Clipboard', 'Output text has been copied to clipboard.')
   } catch (err) {
     console.error('Failed to write to clipboard: ', err)
   }
@@ -122,14 +143,101 @@ const copyToClipboard = async () => {
 
 const clearInput = () => {
   input.value = ''
+  showToaster('Input Cleared', 'Input text has been cleared.')
 }
+
+watch(password, () => {
+  const fileType = file.value ? getFileExtension(file.value.name) : ''
+
+  output.value = decodeContent(input.value, password.value, fileType)
+})
+
+watch(input, (value) => {
+  localStorage.setItem(localStorageKey.value, value)
+
+  const fileType = file.value ? getFileExtension(file.value.name) : ''
+
+  output.value = decodeContent(input.value, password.value, fileType)
+
+  if (file.value){
+    if (currentFileText !== input.value) {
+      file.value = null
+    }
+  }
+})
+
+let currentFileText = ''
+
+const readFile = (file: File) => {
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    const fileType = getFileExtension(file.name)
+    if (fileType === 'pfx' || fileType === 'cer') {
+      const binaryString = forge.util.binary.raw.encode(new Uint8Array(e.target?.result as ArrayBuffer))
+      input.value = forge.util.encode64(binaryString)
+    } else {
+      input.value = e.target?.result as string
+    }
+    currentFileText = input.value
+    showToaster('File Loaded', 'File content has been loaded.')
+  }
+  if (file.name.endsWith('.pfx') || file.name.endsWith('.cer')) {
+    reader.readAsArrayBuffer(file)
+  } else {
+    reader.readAsText(file)
+  }
+}
+
 const panelGroupDir = computed(() => (isMobile.value ? 'vertical' : 'horizontal'))
 
 const panelGroupClass = computed(() => (isMobile.value ? '!h-[175svh]' : '!h-[84svh]'))
+
+function showToaster(title: string, description: string) {
+  toast({
+    title: title,
+    description: description
+  })
+}
+const decodeContent = (content: string, password: string, fileType: string): string => {
+  try {
+    let cert
+    if (fileType === 'pfx') {
+      const p12Asn1 = forge.asn1.fromDer(forge.util.decode64(content))
+      const p12 = forge.pkcs12.pkcs12FromAsn1(p12Asn1, password)
+      const bags = p12.getBags({ bagType: forge.pki.oids.certBag });
+      const certBag = bags[forge.pki.oids.certBag];
+      if (certBag && certBag[0] && certBag[0].cert) {
+        cert = certBag[0].cert;
+      } else {
+        throw new Error('Certificate bag is undefined or empty');
+      }
+    } else if (fileType === 'cer') {
+      cert = forge.pki.certificateFromAsn1(forge.asn1.fromDer(forge.util.decode64(content)))
+    } else {
+      cert = forge.pki.certificateFromPem(content)
+    }
+
+    if (!cert) {
+      throw new Error('Certificate is undefined')
+    }
+
+    const subject = cert.subject.attributes.map(attr => `${attr.shortName}=${attr.value}`).join(', ')
+    const issuer = cert.issuer.attributes.map(attr => `${attr.shortName}=${attr.value}`).join(', ')
+    const serialNumber = cert.serialNumber.toUpperCase()
+    const notBefore = cert.validity.notBefore.toLocaleString()
+    const notAfter = cert.validity.notAfter.toLocaleString()
+    const thumbprint = forge.md.sha1.create().update(forge.asn1.toDer(forge.pki.certificateToAsn1(cert)).getBytes()).digest().toHex().toUpperCase()
+    const subjectKeyIdentifier = cert.extensions.find(ext => ext.name === 'subjectKeyIdentifier')?.subjectKeyIdentifier || ''
+
+    return `[Subject]\n  ${subject}\n\n[Issuer]\n  ${issuer}\n\n[Serial Number]\n  ${serialNumber}\n\n[Not Before]\n  ${notBefore}\n\n[Not After]\n  ${notAfter}\n\n[Thumbprint]\n  ${thumbprint}\n\n[Subject Key Identifier]\n  ${subjectKeyIdentifier}`
+  } catch (e) {
+    console.error(e)
+    return 'Failed to decode certificate'
+  }
+}
 </script>
 
 <template>
-  <AppToaster />
   <ResizablePanelGroup :direction="panelGroupDir" :class="panelGroupClass">
     <ResizablePanel class="h-[100svh] w-full">
       <div class="input-header">
@@ -138,7 +246,7 @@ const panelGroupClass = computed(() => (isMobile.value ? '!h-[175svh]' : '!h-[84
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <AppButton variant="outline" size="icon" @click="pasteFromClipboard">
+                <AppButton variant="outline" size="icon" @click="pasteToPasswordFromClipboard">
                   <ClipboardPaste class="w-4 h-4" />
                 </AppButton>
               </TooltipTrigger>
@@ -242,7 +350,7 @@ const panelGroupClass = computed(() => (isMobile.value ? '!h-[175svh]' : '!h-[84
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <AppButton variant="outline" size="icon" @click="copyToClipboard">
+                <AppButton variant="outline" size="icon" @click="copyFromOutputToClipboard">
                   <Copy class="w-4 h-4" />
                 </AppButton>
               </TooltipTrigger>

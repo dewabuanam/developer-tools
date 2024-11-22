@@ -10,7 +10,6 @@ import { AppComponentGap } from '@/components/ui/app-component-gap'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useToast } from '@/components/ui/toast/use-toast'
 import { AppButton } from '@/components/ui/app-button'
-import {AppToaster} from "@/components/ui/app-toaster";
 
 const { toast } = useToast()
 
@@ -123,7 +122,6 @@ const panelGroupClass = computed(() => (isMobile.value ? '!h-[125svh]' : '!h-[60
 </script>
 
 <template>
-  <AppToaster />
   <Label for="email">Configuration</Label>
   <AppComponentGap size="small" />
   <AppConfiguration
