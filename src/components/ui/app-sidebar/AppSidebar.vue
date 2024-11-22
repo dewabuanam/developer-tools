@@ -15,13 +15,12 @@ import {
 import { ChevronDown } from 'lucide-vue-next'
 import type { PropType } from 'vue'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import logo from '@/assets/logo.png'
 import { Label } from 'radix-vue'
 import { version } from '@/../package.json'
-import { cn } from '@/lib/utils'
 
-const props = defineProps({
+defineProps({
   menuItems: {
     type: Array as PropType<Array<any>>,
     required: true

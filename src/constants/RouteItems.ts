@@ -23,7 +23,7 @@ import {
   Regex,
   TextSearch,
   ArrowDownToDot,
-  FileImage, Palette, ScanEye, BookImage, Microscope, CheckCheck, Sigma, IdCard, Hash
+  FileImage, Palette, ScanEye, BookImage, Microscope, CheckCheck, Sigma, IdCard, Hash, Image
 } from 'lucide-vue-next'
 
 import HomePage from '../pages/HomePage.vue';
@@ -40,7 +40,8 @@ import CronParserPage from '../pages/converters/CronParserPage.vue';
 import CertificateViewerPage from '../pages/encoders-decoders/CertificateViewerPage.vue';
 import HtmlEncoderDecoderPage from '../pages/encoders-decoders/HtmlEncoderDecoderPage.vue';
 import UrlEncoderDecoderPage from '../pages/encoders-decoders/UrlEncoderDecoderPage.vue';
-import Base64EncoderDecoderPage from '../pages/encoders-decoders/Base64EncoderDecoderPage.vue';
+import Base64TextEncoderDecoderPage from '../pages/encoders-decoders/Base64TextEncoderDecoderPage.vue';
+import Base64ImageEncoderDecoderPage from '../pages/encoders-decoders/Base64ImageEncoderDecoderPage.vue';
 import GzipCompressorPage from '../pages/encoders-decoders/GzipCompressorPage.vue';
 import JwtDecoderPage from '../pages/encoders-decoders/JwtDecoderPage.vue';
 import JsonFormatterPage from '../pages/formatters/JsonFormatterPage.vue';
@@ -136,11 +137,18 @@ export const routeItems = [
         component: UrlEncoderDecoderPage
       },
       {
-        title: 'Base64 Text & Image Encoder / Decoder',
-        url: '/encoders-decoders/base64',
+        title: 'Base64 Text Encoder / Decoder',
+        url: '/encoders-decoders/base64-text',
         icon: Baseline,
-        description: 'Encode and decode Base64 text and images',
-        component: Base64EncoderDecoderPage
+        description: 'Encode and decode Base64 text',
+        component: Base64TextEncoderDecoderPage
+      },
+      {
+        title: 'Base64 Images Encoder / Decoder',
+        url: '/encoders-decoders/base64-image',
+        icon: Image,
+        description: 'Encode and decode Base64 images',
+        component: Base64ImageEncoderDecoderPage
       },
       {
         title: 'GZip Compressor',

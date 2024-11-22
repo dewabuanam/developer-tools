@@ -69,7 +69,7 @@ function handleInputChange(event: Event) {
 
 function validateInput(event: Event) {
   const target = event.target as HTMLInputElement
-  let value = parseFloat(target.value)
+  const value = parseFloat(target.value)
   if (props.maxInputNumber !== undefined && value > props.maxInputNumber) {
     target.value = props.maxInputNumber.toString()
   }

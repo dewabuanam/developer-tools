@@ -41,7 +41,7 @@ const convert = () => {
       const yamlObject = yaml.load(inputText.value)
       outputText.value = JSON.stringify(yamlObject, null, parseInt(selectedIndentation.value))
     }
-  } catch (error: never) {
+  } catch (error: any) {
     outputText.value = `Error: ${error.message}`
   }
 }
