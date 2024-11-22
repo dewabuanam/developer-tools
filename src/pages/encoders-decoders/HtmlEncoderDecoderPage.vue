@@ -19,6 +19,12 @@ const output = ref('')
 
 watch(switchValue, () => {
   input.value = output.value
+  if (switchValue.value === '0') {
+    output.value = decodeHTML(newValue)
+  }
+  else{
+    output.value = encodeHTML(newValue)
+  }
 })
 
 watch(input, (newValue) => {
