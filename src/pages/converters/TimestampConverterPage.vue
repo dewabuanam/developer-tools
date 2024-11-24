@@ -75,9 +75,10 @@ watch(selectedTimeZone, (newTimeZoneValue) => {
 })
 
 watch(timestamp, (newTimestamp) => {
-  console.log(newTimestamp)
+  while (newTimestamp.toString().length < 13) {
+    newTimestamp = parseInt(newTimestamp.toString() + '0');
+  }
   const newDate = new Date(newTimestamp)
-  console.log(newDate)
   if (!isNaN(newDate.getTime())) {
     year.value = newDate.getFullYear()
     month.value = newDate.getMonth() + 1

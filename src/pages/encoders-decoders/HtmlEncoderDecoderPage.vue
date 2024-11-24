@@ -11,9 +11,9 @@ import { Textarea } from '@/components/ui/textarea'
 
 const { toast } = useToast()
 
-const switchValue = ref('')
+const switchValue = ref('0')
 const isFullScreen = ref(false)
-const switchText = ref('Decode')
+const switchText = ref(switchValue.value === '0' ? 'Decode' : 'Encode')
 const input = ref('')
 const output = ref('')
 
@@ -21,9 +21,11 @@ const output = ref('')
 watch(switchValue, () => {
   input.value = output.value
   if (switchValue.value === '0') {
+    switchText.value = 'Decode'
     output.value = decodeHTML(input.value)
   }
   else{
+    switchText.value = 'Encode'
     output.value = encodeHTML(input.value)
   }
 })

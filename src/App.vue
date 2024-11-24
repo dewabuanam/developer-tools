@@ -65,7 +65,7 @@ watch(isDark, (newVal) => {
             <Switch :checked="isDark" @update:checked="toggleTheme"
                     class="ml-auto h-full ">
               <template #thumb>
-                <Moon v-if="isDark" class="app-icon h-full w-full justify-center p-0.5" />
+                <Moon v-if="isDark" class="accent-white h-full w-full justify-center p-0.5" />
                 <Sun v-else class="app-icon h-full w-full justify-center p-0.5" />
               </template>
             </Switch>

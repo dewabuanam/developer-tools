@@ -187,7 +187,7 @@ const panelGroupClass = computed(() => (isMobile.value ? '!h-[125svh]' : '!h-[60
       <AppComponentGap size="small" />
       <AppJsonEditor v-model="inputText" />
     </ResizablePanel>
-    <ResizableHandle v-if="!isMobile" with-handle class="resizeable-handle" />
+    <ResizableHandle v-if="!isMobile" with-handle class="p-2 bg-transparent" />
     <ResizablePanel>
       <div class="input-header">
         <Label for="output">Output</Label>
@@ -211,10 +211,3 @@ const panelGroupClass = computed(() => (isMobile.value ? '!h-[125svh]' : '!h-[60
     </ResizablePanel>
   </ResizablePanelGroup>
 </template>
-
-<style scoped>
-.resizeable-handle {
-  padding: 5px;
-  background: transparent;
-}
-</style>

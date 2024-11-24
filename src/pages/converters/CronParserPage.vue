@@ -2,7 +2,7 @@
 import { ref, watch, computed } from 'vue'
 import { useToast } from '@/components/ui/toast'
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
-import { ArrowUp10, ClipboardPaste, Copy, LetterText, Tally2 } from 'lucide-vue-next'
+import { ArrowUp10, ClipboardPaste, Copy, LetterText, Tally2, TriangleAlert } from 'lucide-vue-next'
 import { AppConfiguration } from '@/components/ui/app-configuration'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
 import { Label } from '@/components/ui/label'
@@ -114,6 +114,7 @@ handleBlur()
 
 <template>
   <Alert v-if="alertMessage" variant="destructive">
+    <TriangleAlert class="w-4 h-4" />
     <AlertTitle>Warning</AlertTitle>
     <AlertDescription>{{ alertMessage }}</AlertDescription>
   </Alert>

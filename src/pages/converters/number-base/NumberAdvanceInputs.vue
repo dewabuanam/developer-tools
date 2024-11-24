@@ -2,7 +2,7 @@
 import { Label } from '@/components/ui/label'
 import { AppConfiguration } from '@/components/ui/app-configuration'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
-import { ArrowLeft, ArrowRight, ClipboardPaste, Copy, Settings } from 'lucide-vue-next'
+import { ArrowLeft, ArrowRight, ClipboardPaste, Copy, TriangleAlert } from 'lucide-vue-next'
 import { ref, watch } from 'vue'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
@@ -213,6 +213,7 @@ watch(() => props.formatNumber, () => {
 
 <template>
   <Alert v-if="alertMessage" variant="destructive">
+    <TriangleAlert class="w-4 h-4" />
     <AlertTitle>Warning</AlertTitle>
     <AlertDescription>{{ alertMessage }}</AlertDescription>
   </Alert>

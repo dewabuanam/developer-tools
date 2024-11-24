@@ -5,10 +5,10 @@
 [![framework: Vue 3](https://img.shields.io/badge/framework-Vue_3-brightgreen.svg?style=flat-square)](https://vuejs.org/)
 [![framework: Vite](https://img.shields.io/badge/framework-Vite-646CFF.svg?style=flat-square)](https://vitejs.dev/)
 
-Developer Tools is a comprehensive toolkit designed to streamline your development workflow. It offers an extensive suite of utilities for encoding, decoding, generating, validating, and transforming data, along with powerful graphic and text processing features, all built with Vue 3 and JavaScript.
+Developer Tools is a comprehensive toolkit designed to streamline your development workflow. It offers an extensive suite of utilities for encoding, decoding, generating, validating, and transforming data, along with powerful graphic and text processing features, all built with Vue 3 and JavaScript. This toolkit is based on DevToys but in a web version.
 
 To use the developer tools:
-[Visit Fox Sensei](https://dewabuanam.github.io/developer-tools-by-fox-sensei/)
+[Visit Developer Tools by Fox Sensei](https://dewabuanam.github.io/developer-tools-by-fox-sensei/)
 # Key Features
 ### Converters
 - JSON ↔ YAML

@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import {
   Sidebar,
   SidebarContent,
@@ -28,9 +28,14 @@ defineProps({
 })
 
 const router = useRouter()
+const route = useRoute()
 
 const navigateTo = (url: string) => {
   router.push(url)
+}
+
+const isActive = (url: string) => {
+  return route.path === url
 }
 </script>
 
@@ -56,21 +61,22 @@ const navigateTo = (url: string) => {
               <SidebarMenuItem>
                 <template v-if="item.children && item.children.length > 0">
                   <CollapsibleTrigger asChild @click="navigateTo(item.url)">
-                    <SidebarMenuButton class="app-sidebar-button">
+                    <SidebarMenuButton :class="[isActive(item.url) ? 'active-menu' : 'app-sidebar-button']">
                       <div class="flex items-center space-x-2 cursor-pointer">
-                        <component :is="item.icon" class="w-5 h-5 app-sidebar-icon" />
-                        <span class="title-text font-medium app-sidebar-label">{{ item.title }}</span>
+                        <component :is="item.icon" :class="[isActive(item.url) ? 'active-menu' : 'app-sidebar-icon']" class="w-5 h-5" />
+                        <span :class="[isActive(item.url) ? 'active-menu' : 'app-sidebar-label']" class="title-text font-medium">{{ item.title }}</span>
                       </div>
                       <ChevronDown
-                        class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180 app-sidebar-icon" />
+                        :class="[isActive(item.url) ? 'active-menu' : 'app-sidebar-icon']"
+                        class="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                 </template>
                 <template v-else>
-                  <SidebarMenuButton @click="navigateTo(item.url)" class="app-sidebar-button">
+                  <SidebarMenuButton @click="navigateTo(item.url)" :class="{ 'active-menu': isActive(item.url) }" class="app-sidebar-button">
                     <div class="flex items-center space-x-2 cursor-pointer">
-                      <component :is="item.icon" class="w-5 h-5 app-sidebar-icon" />
-                      <span class="title-text font-medium app-sidebar-label">{{ item.title }}</span>
+                      <component :is="item.icon" :class="[isActive(item.url) ? 'active-menu' : 'app-sidebar-icon']" class="w-5 h-5 app-sidebar" />
+                      <span :class="[isActive(item.url) ? 'active-menu' : 'app-sidebar-label']" class="title-text font-medium">{{ item.title }}</span>
                     </div>
                   </SidebarMenuButton>
                 </template>
@@ -78,10 +84,10 @@ const navigateTo = (url: string) => {
                   <SidebarMenuSub>
                     <template v-for="child in item.children">
                       <SidebarMenuSubItem>
-                        <SidebarMenuButton class="app-sidebar-button" asChild>
+                        <SidebarMenuButton :class="[isActive(child.url) ? 'active-menu' : 'app-sidebar-button']" asChild>
                           <div @click="navigateTo(child.url)" class="cursor-pointer">
-                            <component :is="child.icon" class="app-sidebar-icon" />
-                            <span class="font-medium app-sidebar-label">{{ child.title }}</span>
+                            <component :is="child.icon" :class="[isActive(child.url) ? 'active-menu' : 'app-sidebar-icon']" />
+                            <span class="font-medium" :class="[isActive(child.url) ? 'active-menu' : 'app-sidebar-label']">{{ child.title }}</span>
                           </div>
                         </SidebarMenuButton>
                       </SidebarMenuSubItem>
@@ -118,5 +124,9 @@ const navigateTo = (url: string) => {
 
 .avatar-margin-top {
   margin-top: -20px; /* Adjust the margin as needed */
+}
+.active-menu {
+  background-color: hsl(var(--sidebar-component));
+  color: hsl(var(--sidebar-component-primary));
 }
 </style>

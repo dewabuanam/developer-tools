@@ -13,9 +13,9 @@ import { useRoute } from 'vue-router'
 const { toast } = useToast()
 const route = useRoute()
 
-const switchValue = ref('')
+const switchValue = ref('0')
 const isFullScreen = ref(false)
-const switchText = ref('Decode')
+const switchText = ref(switchValue.value === '0' ? 'Decode' : 'Encode')
 const input = ref('')
 const output = ref('')
 const localStorageKey = computed(() => `${String(route.name)}-input`)
@@ -31,9 +31,11 @@ onMounted(() => {
 watch(switchValue, () => {
   input.value = output.value
   if (switchValue.value === '0') {
+    switchText.value='Decode'
     output.value = decodeUrl(input.value)
   }
   else{
+    switchText.value='Encode'
     output.value = encodeUrl(input.value)
   }
 })

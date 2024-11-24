@@ -11,9 +11,9 @@ import { Textarea } from '@/components/ui/textarea'
 
 const { toast } = useToast()
 
-const switchValue = ref('')
+const switchValue = ref('0')
 const isFullScreen = ref(false)
-const switchText = ref('Decode')
+const switchText = ref(switchValue.value === '0' ? 'Decode' : 'Encode')
 const input = ref('')
 const output = ref('')
 const encodingList = [
@@ -24,8 +24,10 @@ const encoding = ref(encodingList[0].value)
 
 function updateOutput() {
   if (switchValue.value === '0') {
+    switchText.value = 'Decode'
     output.value = decodeBase64(input.value, encoding.value)
   } else {
+    switchText.value = 'Encode'
     output.value = encodeBase64(input.value, encoding.value)
   }
 }
@@ -132,7 +134,6 @@ function loadFile() {
       v-model="switchValue"
       :switch-text="switchText"
     />
-    <AppComponentGap />
     <AppComponentGap size="small" />
     <AppConfiguration
       title="Encoding"
