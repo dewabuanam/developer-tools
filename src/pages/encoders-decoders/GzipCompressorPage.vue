@@ -70,7 +70,8 @@ function compress(str: string): string {
     alertMessage.value = ''; // Clear the alert message on success
     return btoa(String.fromCharCode(...compressedData));
   } catch (error) {
-    alertMessage.value = `Compression error: ${error.message}`;
+    const err = error as Error
+    alertMessage.value = `Compression error: ${err.message}`;
     return '';
   }
 }
@@ -83,7 +84,8 @@ function deCompress(str: string): string {
     alertMessage.value = ''; // Clear the alert message on success
     return new TextDecoder().decode(decompressedData);
   } catch (error) {
-    alertMessage.value = `Decompression error: ${error.message}`;
+    const err = error as Error
+    alertMessage.value = `Decompression error: ${err.message}`;
     return '';
   }
 }

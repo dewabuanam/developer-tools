@@ -275,8 +275,7 @@ function copyPayloadToClipboard() {
     showToaster('Copied to Clipboard', 'Payload text has been copied to clipboard.')
   })
 }
-
-const alertType = ref('default')
+const alertType = ref<'default' | 'destructive' | null>(null)
 const alertTitle = ref('')
 const alertMessage = ref('')
 
@@ -379,7 +378,7 @@ async function validateToken() {
 }
 
 function showAlertValid(title: string, message: string) {
-  alertType.value = 'valid'
+  alertType.value = 'default'
   alertTitle.value = title
   alertMessage.value = message
 }
@@ -574,11 +573,11 @@ function showAlertWarning(title: string, message: string) {
 
     <div v-if="validateTokenValue === '1'">
       <Alert :variant="alertType"
-             :class="{ 'border-green-600': alertType === 'valid' }">
-        <CheckCheck v-if="alertType === 'valid'" class="w-4 h-4 !text-green-600" />
+             :class="{ 'border-green-600': alertType === 'default' }">
+        <CheckCheck v-if="alertType === 'default'" class="w-4 h-4 !text-green-600" />
         <TriangleAlert v-if="alertType === 'destructive'" class="w-4 h-4" />
-        <AlertTitle :class="{ 'text-green-600': alertType === 'valid' }">{{ alertTitle }}</AlertTitle>
-        <AlertDescription :class="{ 'text-green-600': alertType === 'valid' }">{{ alertMessage }}</AlertDescription>
+        <AlertTitle :class="{ 'text-green-600': alertType === 'default' }">{{ alertTitle }}</AlertTitle>
+        <AlertDescription :class="{ 'text-green-600': alertType === 'default' }">{{ alertMessage }}</AlertDescription>
       </Alert>
 
       <AppComponentGap />
