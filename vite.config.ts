@@ -4,6 +4,8 @@ import autoprefixer from 'autoprefixer'
 import tailwind from 'tailwindcss'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import NodeGlobalsPolyfillPlugin from '@esbuild-plugins/node-globals-polyfill';
+import NodePolyfills from 'vite-plugin-node-polyfills';
 
 export default defineConfig({
   base: "/",
@@ -38,7 +40,9 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      crypto: 'crypto-browserify',
+      stream: 'stream-browserify',
     }
   }
 })
