@@ -2,7 +2,7 @@
   <Codemirror
     v-model="code"
     placeholder=""
-    :style="{ height: '480px', border: '1px solid #ccc', borderRadius: '2px' }"
+    :style="computedStyle"
     :autofocus="true"
     :indent-with-tab="true"
     :tab-size="2"
@@ -33,6 +33,14 @@ export default defineComponent({
     darkmode: {
       type: Boolean,
       default: false
+    },
+    maxWidth: {
+      type: String,
+      default: ''
+    },
+    height: {
+      type: String,
+      default: ''
     }
   },
   setup(props) {
@@ -46,6 +54,24 @@ export default defineComponent({
       props.darkmode ? oneDark : []
     ])
 
+    // Computed style object
+    const computedStyle = computed(() => {
+      const style = {
+        border: '1px solid #ccc',
+        borderRadius: '2px'
+      }
+      if (props.maxWidth && props.maxWidth !== '') {
+        console.log(props.maxWidth)
+        style.maxWidth = props.maxWidth
+      }
+      if (props.height) {
+        style.height = props.height
+      } else{
+        style.height = '480px'
+      }
+      return style
+    })
+
     // Codemirror EditorView instance ref
     const view = shallowRef()
     const handleReady = (payload) => {
@@ -55,6 +81,7 @@ export default defineComponent({
     return {
       code,
       computedExtensions,
+      computedStyle,
       handleReady,
       log: console.log
     }
