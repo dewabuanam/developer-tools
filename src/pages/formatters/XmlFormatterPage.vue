@@ -47,7 +47,7 @@ function showToaster(title: string, description: string) {
 }
 
 watch([isAttributeOnNewLine, indentationType, inputText], () => {
-  outputText.value = formatXml(inputText.value, indentationType.value, isAttributeOnNewLine)
+  outputText.value = formatXml(inputText.value, indentationType.value, isAttributeOnNewLine.value === '1')
 })
 
 function formatXml(inputText: string, indentationType: string, isAttributeOnNewLine: boolean): string {

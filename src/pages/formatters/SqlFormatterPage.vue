@@ -75,29 +75,36 @@ watch([indentationType,languageType, inputText], () => {
 function formatSql() {
   try {
     const sql = inputText.value;
-    const language = languageType.value;
-    let indent;
+    const language = languageType.value as 'db2' | 'mariadb' | 'mysql' | 'n1ql' | 'plsql' | 'postgresql' | 'redshift' | 'spark' | 'sql' | 'transactsql' | 'bigquery' | 'db2i' | 'hive' | 'singlestoredb' | 'snowflake' | 'sqlite' | 'tidb' | 'trino' | 'tsql' | undefined;
+    let tabWidth;
+    let useTabs;
 
     switch (indentationType.value) {
       case '2spaces':
-        indent = '  ';
+        tabWidth = 2;
+        useTabs = false;
         break;
       case '4spaces':
-        indent = '    ';
+        tabWidth = 4;
+        useTabs = false;
         break;
       case '1tab':
-        indent = '\t';
+        tabWidth = 1;
+        useTabs = true;
         break;
       case 'minified':
-        indent = '';
+        tabWidth = 0;
+        useTabs = false;
         break;
       default:
-        indent = '  ';
+        tabWidth = 2;
+        useTabs = false;
     }
 
     const formattedSql = format(sql, {
       language: language,
-      indent: indent,
+      tabWidth: tabWidth,
+      useTabs: useTabs
     });
 
     outputText.value = formattedSql;

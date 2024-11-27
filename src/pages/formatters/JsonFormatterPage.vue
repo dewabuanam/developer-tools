@@ -49,14 +49,14 @@ function showToaster(title: string, description: string) {
 watch([isSort, indentationType, inputText], () => {
   formatJson()
 })
-function sortObjectKeys(obj: Record<string, never>): Record<string, never> {
+function sortObjectKeys(obj: any): any {
   if (Array.isArray(obj)) {
     return obj.map(sortObjectKeys);
   } else if (obj !== null && typeof obj === 'object') {
     return Object.keys(obj).sort().reduce((result, key) => {
       result[key] = sortObjectKeys(obj[key]);
       return result;
-    }, {} as Record<string, never>);
+    }, {} as Record<string, any>);
   }
   return obj;
 }
