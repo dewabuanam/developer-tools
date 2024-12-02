@@ -39,12 +39,12 @@ function showToaster(title: string, description: string) {
 
 async function copyFromUuidOutputToClipboard() {
   await navigator.clipboard.writeText(uuidOutput.value)
-  showToaster('Copied', 'Copied password output to clipboard')
+  showToaster('Copied', 'Copied output to clipboard')
 }
 
 function clearUuidOuput() {
   uuidOutput.value = ''
-  showToaster('Cleared', 'Cleared password output')
+  showToaster('Cleared', 'Cleared output')
 }
 
 function generateUuid() {
