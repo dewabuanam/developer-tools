@@ -68,42 +68,42 @@ export const routeItems = [
     title: 'List Tools',
     url: '/',
     icon: PencilRuler,
-    description: 'Navigate to the list tools',
+    description: 'Navigate to tools list',
     component: HomePage
   },
   {
     title: 'Converters',
     url: '/converters',
     icon: ArrowLeftRight,
-    description: 'Tools for converting data formats',
+    description: 'Data format conversion tools',
     component: ConvertersPage,
     children: [
       {
         title: 'JSON ↔ YAML Converter',
         url: '/converters/json-yaml',
         icon: FileJson2,
-        description: 'Convert JSON to YAML and vice versa',
+        description: 'Convert JSON and YAML',
         component: JsonYamlPage
       },
       {
         title: 'Timestamp Converter',
         url: '/converters/timestamp',
         icon: CalendarMinus,
-        description: 'Convert timestamps to human-readable dates',
+        description: 'Convert timestamps to dates',
         component: TimestampConverterPage
       },
       {
         title: 'Number Base Converter',
         url: '/converters/number-base',
         icon: ArrowUp10,
-        description: 'Convert numbers between different bases',
+        description: 'Convert number bases',
         component: NumberBaseConverterPage
       },
       {
         title: 'Cron Expression Parser',
         url: '/converters/cron-parser',
         icon: TimerReset,
-        description: 'Parse and validate cron expressions',
+        description: 'Parse cron expressions',
         component: CronParserPage
       }
     ]
@@ -112,56 +112,56 @@ export const routeItems = [
     title: 'Encoders/Decoders',
     url: '/encoders-decoders',
     icon: FileKey,
-    description: 'Tools for encoding and decoding data',
+    description: 'Data encoding/decoding tools',
     component: EncodersDecodersPage,
     children: [
       {
         title: 'Certificate Viewer',
         url: '/encoders-decoders/certificate-viewer',
         icon: ShieldCheck,
-        description: 'View and analyze certificates',
+        description: 'Analyze certificates',
         component: CertificateViewerPage
       },
       {
         title: 'HTML Encoder / Decoder',
         url: '/encoders-decoders/html',
         icon: Heading,
-        description: 'Encode and decode HTML entities',
+        description: 'Encode/decode HTML entities',
         component: HtmlEncoderDecoderPage
       },
       {
         title: 'URL Encoder / Decoder',
         url: '/encoders-decoders/url',
         icon: Link,
-        description: 'Encode and decode URLs',
+        description: 'Encode/decode URLs',
         component: UrlEncoderDecoderPage
       },
       {
         title: 'Base64 Text Encoder / Decoder',
         url: '/encoders-decoders/base64-text',
         icon: Baseline,
-        description: 'Encode and decode Base64 text',
+        description: 'Encode/decode Base64 text',
         component: Base64TextEncoderDecoderPage
       },
       {
         title: 'Base64 Images Encoder / Decoder',
         url: '/encoders-decoders/base64-image',
         icon: Image,
-        description: 'Encode and decode Base64 images',
+        description: 'Encode/decode Base64 images',
         component: Base64ImageEncoderDecoderPage
       },
       {
         title: 'GZip Compressor',
         url: '/encoders-decoders/gzip',
         icon: Package2,
-        description: 'Compress and decompress data using GZip',
+        description: 'GZip compression tools',
         component: GzipCompressorPage
       },
       {
         title: 'JWT Decoder',
         url: '/encoders-decoders/jwt',
         icon: FileKey,
-        description: 'Decode JSON Web Tokens (JWT)',
+        description: 'Decode JWT tokens',
         component: JwtDecoderPage
       }
     ]
@@ -170,7 +170,7 @@ export const routeItems = [
     title: 'Formatters',
     url: '/formatters',
     icon: Baseline,
-    description: 'Tools for formatting data',
+    description: 'Data formatting tools',
     component: FormattersPage,
     children: [
       { title: 'JSON Formatter', url: '/formatters/json', icon: Braces, description: 'Format JSON data', component: JsonFormatterPage },
@@ -182,7 +182,7 @@ export const routeItems = [
     title: 'Generators',
     url: '/generators',
     icon: PackagePlus,
-    description: 'Tools for generating data',
+    description: 'Data generation tools',
     component: GeneratorsPage,
     children: [
       { title: 'Hash Generator', url: '/generators/hash', icon: Hash, description: 'Generate hash values', component: HashGeneratorPage },
@@ -208,21 +208,21 @@ export const routeItems = [
     title: 'Text Tools',
     url: '/text-tools',
     icon: NotebookText,
-    description: 'Tools for manipulating text',
+    description: 'Text manipulation tools',
     component: TextToolsPage,
     children: [
       {
         title: 'Escape / Unescape Text',
         url: '/text-tools/escape-unescape',
         icon: CircleArrowOutUpLeft,
-        description: 'Escape and unescape text',
+        description: 'Escape/unescape text',
         component: EscapeUnescapeTextPage
       },
       {
         title: 'Inspector & Case Converter',
         url: '/text-tools/inspector-case',
         icon: Italic,
-        description: 'Inspect and convert text case',
+        description: 'Inspect/convert text case',
         component: InspectorCaseConverterPage
       },
       {
@@ -236,7 +236,7 @@ export const routeItems = [
         title: 'Text Difference Finder',
         url: '/text-tools/text-difference',
         icon: TextSearch,
-        description: 'Find differences between texts',
+        description: 'Find text differences',
         component: TextDifferenceFinderPage
       },
       { title: 'XML Validator', url: '/text-tools/xml-validator', icon: CheckCheck, description: 'Validate XML data', component: XmlValidatorPage },
@@ -253,7 +253,7 @@ export const routeItems = [
     title: 'Graphic Tools',
     url: '/graphic-tools',
     icon: FileImage,
-    description: 'Tools for graphic design',
+    description: 'Graphic design tools',
     component: GraphicToolsPage,
     children: [
       {
@@ -267,21 +267,21 @@ export const routeItems = [
         title: 'Color Picker & Contrast Checker',
         url: '/graphic-tools/color-picker',
         icon: Palette,
-        description: 'Pick colors and check contrast',
+        description: 'Pick colors/check contrast',
         component: ColorPickerPage
       },
       {
         title: 'PNG / JPEG Compressor',
         url: '/graphic-tools/compressor',
         icon: Microscope,
-        description: 'Compress PNG and JPEG images',
+        description: 'Compress PNG/JPEG images',
         component: PngJpegCompressorPage
       },
       {
         title: 'Image Converter',
         url: '/graphic-tools/image-converter',
         icon: BookImage,
-        description: 'Convert images between formats',
+        description: 'Convert image formats',
         component: ImageConverterPage
       }
     ]

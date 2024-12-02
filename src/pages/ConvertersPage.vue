@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import { routeItems } from '@/constants/RouteItems'
+import { ref, watch } from 'vue'
 import AppTool from '@/components/ui/app-tool/AppTool.vue'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { useFilteredMenuItems } from '@/composables/useFilteredMenuItems'
+import type { MenuItem } from '@/router/index'
 
-const convertersMenu = routeItems.find(item => item.url === '/converters')
-const childItems = convertersMenu ? convertersMenu.children : []
+const { filteredMenuItems } = useFilteredMenuItems()
+const childItems = ref<MenuItem[]>([])
+
+watch(filteredMenuItems, (newValue) => {
+  const convertersMenu = newValue.find(item => item.url === '/converters')
+  childItems.value = convertersMenu ? convertersMenu.children : []
+}, { immediate: true })
+
 const updateGridColumns = () => {
   const svh = window.innerWidth / 200
   const columns = Math.min(Math.floor(svh), 5)

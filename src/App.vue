@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { useFilteredMenuItems } from '@/composables/useFilteredMenuItems'
 import { ref, watch } from 'vue'
 import Cookies from 'js-cookie'
 import { useRoute } from 'vue-router'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/ui/app-sidebar'
-import { routeItems } from '@/constants/RouteItems'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { AppComponentGap } from '@/components/ui/app-component-gap'
@@ -14,8 +14,11 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import logo from '@/assets/logo.png'
 import { Card } from '@/components/ui/card'
 import { Toaster } from '@/components/ui/toast'
+import { useSearchToolsQuery } from '@/composables/useSearchToolsQuery'
 
 const route = useRoute()
+const { searchQuery, setSearchQuery } = useSearchToolsQuery()
+const { filteredMenuItems } = useFilteredMenuItems()
 
 const isDark = ref(Cookies.get('theme_isDark') === 'true')
 
@@ -44,11 +47,16 @@ watch(isDark, (newVal) => {
   }
 }, { immediate: true })
 
+const localSearchQuery = ref(searchQuery.value)
+
+watch(localSearchQuery, (newQuery) => {
+  setSearchQuery(newQuery)
+})
 </script>
 
 <template>
   <SidebarProvider>
-    <AppSidebar :menuItems="routeItems" />
+    <AppSidebar :menuItems="filteredMenuItems" v-model:searchQuery="localSearchQuery" />
     <main class="content">
       <Toaster/>
       <div class="router-page">
@@ -59,9 +67,14 @@ watch(isDark, (newVal) => {
             <Avatar @click="$router.push('/')"  size="base" class="avatar-margin-top justify-center bg-transparent" shape="square">
               <AvatarImage :src="logo" alt="@radix-vue" class="object-center" />
             </Avatar>
-            <Label for="title" class="title-label">
-              {{ typeof route.name === 'string' ? kebabToPascal(route.name) : '' }}
-            </Label>
+            <div class="flex-col">
+              <Label for="title" class="title-label">
+                {{ typeof route.name === 'string' ? kebabToPascal(route.name) : '' }}
+              </Label>
+              <p v-if="route.meta.description">
+                {{ route.meta.description }}
+              </p>
+            </div>
             <Switch :checked="isDark" @update:checked="toggleTheme"
                     class="ml-auto h-full ">
               <template #thumb>
@@ -93,7 +106,7 @@ watch(isDark, (newVal) => {
 }
 
 .title-label {
-  font-size: 16px; /* Increase the label size */
+  font-size: 20px; /* Increase the label size */
 }
 
 .menu {
@@ -104,7 +117,10 @@ watch(isDark, (newVal) => {
 .ml-auto {
   margin-left: auto;
 }
-
+.description-text {
+  font-size: 14px;
+  color: #ddd;
+}
 .avatar-cut {
   clip-path: inset(0 0 25% 0);
   align-self: flex-end;

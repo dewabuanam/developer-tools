@@ -1,4 +1,5 @@
 <script setup lang='ts'>
+import { ref, computed, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import {
   Sidebar,
@@ -12,19 +13,33 @@ import {
   CollapsibleContent,
   CollapsibleTrigger
 } from '@/components/ui/collapsible'
-import { ChevronDown } from 'lucide-vue-next'
+import { ChevronDown, Search } from 'lucide-vue-next'
 import type { PropType } from 'vue'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import logo from '@/assets/logo.png'
 import { Label } from 'radix-vue'
+import { Input } from '@/components/ui/input'
 import { version } from '@/../package.json'
+import type { MenuItem } from '@/router/index'
 
-defineProps({
+const props = defineProps({
   menuItems: {
-    type: Array as PropType<Array<any>>,
+    type: Array as PropType<Array<MenuItem>>,
+    required: true
+  },
+  searchQuery: {
+    type: String,
     required: true
   }
+})
+
+const emit = defineEmits(['update:searchQuery'])
+
+const localSearchQuery = ref(props.searchQuery)
+
+watch(localSearchQuery, (newValue) => {
+  emit('update:searchQuery', newValue)
 })
 
 const router = useRouter()
@@ -42,7 +57,7 @@ const isActive = (url: string) => {
 <template>
   <Sidebar>
     <ScrollArea class="h-[100svh] rounded-md">
-      <SidebarHeader class="flex flex-col ">
+      <SidebarHeader class="flex flex-col p-3">
         <Label
           class="app-sidebar-text text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 logo-text ">
           Developer Tools</Label>
@@ -53,9 +68,15 @@ const isActive = (url: string) => {
         <Avatar size="xxl" class="avatar-margin-top justify-center bg-transparent" shape="square">
           <AvatarImage :src="logo" alt="@radix-vue" class="object-center" />
         </Avatar>
+        <div class="relative w-full max-w-sm items-center">
+          <Input v-model="localSearchQuery" placeholder="Search..." class="pl-10" />
+          <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
+            <Search class="size-6 text-muted-foreground" />
+          </span>
+        </div>
       </SidebarHeader>
       <SidebarContent class="p-3">
-        <template v-for="item in menuItems" :key="item.title">
+        <template v-for="item in props.menuItems" :key="item.title">
           <SidebarMenu>
             <Collapsible className="group/collapsible">
               <SidebarMenuItem>

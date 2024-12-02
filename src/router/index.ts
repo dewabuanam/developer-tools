@@ -4,7 +4,7 @@ import { routeItems } from '@/constants/RouteItems'
 
 const routes: RouteRecordRaw[] = []
 
-interface MenuItem {
+export interface MenuItem {
   title: string
   url: string
   icon: any
@@ -18,7 +18,8 @@ const addRoutes = (items: MenuItem[]) => {
     routes.push({
       path: item.url,
       name: item.title,
-      component: item.component
+      component: item.component,
+      meta: { description: item.description },
     })
     if (item.children) {
       addRoutes(item.children)
