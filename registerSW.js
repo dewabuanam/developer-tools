@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/developer-tools-by-fox-sensei/sw.js', { scope: '/developer-tools-by-fox-sensei/' })})}
