@@ -19,6 +19,7 @@
     "@codemirror/lang-json": "^6.0.1",
     "@codemirror/lang-xml": "^6.1.0",
     "@codemirror/theme-one-dark": "^6.1.2",
+    "@stablelib/sha384": "^2.0.0",
     "@vueuse/core": "^11.2.0",
     "base32-decode": "^1.0.0",
     "base32-encode": "^2.0.0",
