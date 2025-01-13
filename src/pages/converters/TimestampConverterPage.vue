@@ -39,6 +39,7 @@ const timeInfo = ref({
   utcDateTime: currentDateTime.toISOString()
 })
 const timestamp = ref(currentDateTime.getTime())
+const utcTimeString = ref(currentDateTime.toISOString())
 const year = ref(currentDateTime.getFullYear())
 const month = ref(currentDateTime.getMonth() + 1)
 const day = ref(currentDateTime.getDate())
@@ -74,23 +75,6 @@ watch(selectedTimeZone, (newTimeZoneValue) => {
   }
 })
 
-watch(timestamp, (newTimestamp) => {
-  while (newTimestamp.toString().length < 13) {
-    newTimestamp = parseInt(newTimestamp.toString() + '0');
-  }
-  const newDate = new Date(newTimestamp)
-  if (!isNaN(newDate.getTime())) {
-    year.value = newDate.getFullYear()
-    month.value = newDate.getMonth() + 1
-    day.value = newDate.getDate()
-    hours.value = newDate.getHours()
-    minutes.value = newDate.getMinutes()
-    seconds.value = newDate.getSeconds()
-    ms.value = newDate.getMilliseconds()
-    updateTimeInfo(newDate)
-  }
-})
-
 function updateTimeInfo(date: Date) {
   const newMatchingTimeZone = timeZones.find(zone => zone.value === selectedTimeZone.value)
   if (newMatchingTimeZone) {
@@ -103,18 +87,102 @@ function updateTimeInfo(date: Date) {
   }
 }
 
+function handleTimestampBlur() {
+  let newTimestamp = timestamp.value
+  if (newTimestamp == 0){
+    newTimestamp = new Date().getTime()
+    timestamp.value = newTimestamp
+  }
+  while (newTimestamp.toString().length < 13) {
+    newTimestamp = parseInt(newTimestamp.toString() + '0');
+  }
+  const newDate = new Date(newTimestamp)
+  if (!isNaN(newDate.getTime())) {
+    utcTimeString.value = newDate.toISOString()
+    year.value = newDate.getFullYear()
+    month.value = newDate.getMonth() + 1
+    day.value = newDate.getDate()
+    hours.value = newDate.getHours()
+    minutes.value = newDate.getMinutes()
+    seconds.value = newDate.getSeconds()
+    ms.value = newDate.getMilliseconds()
+    updateTimeInfo(newDate)
+  }
+}
+
+function handleUtcTimeStringBlur() {
+  const newDate = new Date(utcTimeString.value)
+  if (!isNaN(newDate.getTime())) {
+    timestamp.value = newDate.getTime()
+    utcTimeString.value = newDate.toISOString()
+    year.value = newDate.getFullYear()
+    month.value = newDate.getMonth() + 1
+    day.value = newDate.getDate()
+    hours.value = newDate.getHours()
+    minutes.value = newDate.getMinutes()
+    seconds.value = newDate.getSeconds()
+    ms.value = newDate.getMilliseconds()
+    updateTimeInfo(newDate)
+  }
+}
+
 function handleBlur() {
   const newDate = new Date(year.value, month.value - 1, day.value, hours.value, minutes.value, seconds.value, ms.value)
   if (!isNaN(newDate.getTime())) {
+    utcTimeString.value = newDate.toISOString()
     timestamp.value = newDate.getTime()
     updateTimeInfo(newDate)
   }
+}
+
+async function pasteUtcTimeStringFromClipboard() {
+  try {
+    utcTimeString.value = await navigator.clipboard.readText()
+    handleUtcTimeStringBlur();
+    toast({
+      title: 'Pasted from Clipboard',
+      description: 'Utc Time String has been updated from clipboard contents.'
+    })
+  } catch (error) {
+    console.error('Failed to read clipboard contents: ', error)
+  }
+}
+
+async function copyUtcTimeStringToClipboard() {
+  try {
+    await navigator.clipboard.writeText(utcTimeString.value.toString())
+    toast({
+      title: 'Copied to Clipboard',
+      description: 'Utc Time String has been copied to clipboard.'
+    })
+  } catch (error) {
+    console.error('Failed to copy to clipboard: ', error)
+  }
+}
+
+function setUtcTimeStringCurrentDateTime() {
+  const currentDateTime = new Date()
+  timestamp.value = currentDateTime.getTime()
+  utcTimeString.value = currentDateTime.toISOString()
+  year.value = currentDateTime.getFullYear()
+  month.value = currentDateTime.getMonth() + 1
+  day.value = currentDateTime.getDate()
+  hours.value = currentDateTime.getHours()
+  minutes.value = currentDateTime.getMinutes()
+  seconds.value = currentDateTime.getSeconds()
+  ms.value = currentDateTime.getMilliseconds()
+  updateTimeInfo(currentDateTime)
+  toast({
+    title: 'Set Current Date and Time',
+    description: `Current date and time set to ${currentDateTime.toLocaleString()}`
+  })
 }
 
 async function pasteFromClipboard() {
   try {
     const text = await navigator.clipboard.readText()
     timestamp.value = parseInt(text, 10)
+    handleTimestampBlur();
     toast({
       title: 'Pasted from Clipboard',
       description: 'Timestamp has been updated from clipboard contents.'
@@ -139,6 +207,7 @@ async function copyToClipboard() {
 function setCurrentDateTime() {
   const currentDateTime = new Date()
   timestamp.value = currentDateTime.getTime()
+  utcTimeString.value = currentDateTime.toISOString()
   year.value = currentDateTime.getFullYear()
   month.value = currentDateTime.getMonth() + 1
   day.value = currentDateTime.getDate()
@@ -256,7 +325,55 @@ const formattedTimeZones = computed(() => {
     </div>
   </div>
   <AppComponentGap size="small" />
-  <Input v-model="timestamp" id="timestamp" type="number" :default-value="timestamp" class="w-full" />
+  <Input v-model="timestamp" id="timestamp" type="number" :default-value="timestamp" class="w-full" @blur="handleTimestampBlur"
+         @change="handleTimestampBlur" />
+
+  <AppComponentGap />
+
+  <div class="input-header">
+    <Label for="utcTimeString" class="align-bottom">Time String</Label>
+    <div class="button-group">
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button variant="outline" size="icon" @click="setUtcTimeStringCurrentDateTime">
+              <CalendarCheck class="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Set Current Date and Time</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button variant="outline" size="icon" @click="pasteUtcTimeStringFromClipboard">
+              <ClipboardPaste class="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Paste from Clipboard</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button variant="outline" size="icon" @click="copyUtcTimeStringToClipboard">
+              <Copy class="w-4 h-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Copy to Clipboard</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    </div>
+  </div>
+  <AppComponentGap size="small" />
+  <Input v-model="utcTimeString" id="utcTimeString" :default-value="timeInfo.utcDateTime" class="w-full"  @blur="handleUtcTimeStringBlur"
+         @change="handleUtcTimeStringBlur" />
 
   <AppComponentGap />
 

@@ -1,6 +1,6 @@
 {
   "name": "developer-tools-by-fox-sensei",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "private": true,
   "type": "module",
   "scripts": {
@@ -73,7 +73,7 @@
     "autoprefixer": "^10.4.20",
     "eslint": "^9.14.0",
     "eslint-plugin-vue": "^9.30.0",
-    "husky": "^8.0.0",
+    "husky": "^8.0.3",
     "npm-run-all2": "^7.0.1",
     "prettier": "^3.3.3",
     "tailwindcss": "^3.4.15",
